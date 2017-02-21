@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:background="#fac5c5"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/image_textview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="사진들어갈자리"
+        android:gravity="center"/>
+
+    <LinearLayout
+        android:id="@+id/view1_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/title_textiview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="타이틀"
+            android:textSize="16sp" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/content_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="콘텐츠" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+
