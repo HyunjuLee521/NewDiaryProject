@@ -22,6 +22,15 @@ public class EditBackPageActivity extends AppCompatActivity {
         mTitleEdittext = (EditText) findViewById(R.id.title_edittext);
         mContentEdittext = (EditText) findViewById(R.id.content_edittext);
 
+        if(getIntent() !=  null) {
+            if(getIntent().hasExtra("id")) {
+                String title = getIntent().getStringExtra("title");
+                String content = getIntent().getStringExtra("content");
+
+                mTitleEdittext.setText(title);
+                mContentEdittext.setText(content);
+            }
+        }
 
 
     }
@@ -39,8 +48,8 @@ public class EditBackPageActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_backpage:
                 Intent intent = new Intent(this, EditBackPageActivity.class);
-                intent.putExtra("titleEdittext", mTitleEdittext.getText().toString());
-                intent.putExtra("contentEdittext", mContentEdittext.getText().toString());
+                intent.putExtra("title", mTitleEdittext.getText().toString());
+                intent.putExtra("content", mContentEdittext.getText().toString());
                 setResult(RESULT_OK, intent);
                 finish();
                 overridePendingTransition(0, 0);
@@ -54,8 +63,8 @@ public class EditBackPageActivity extends AppCompatActivity {
 
             case R.id.action_save:
                 Intent intent2 = new Intent(this, EditBackPageActivity.class);
-                intent2.putExtra("titleEdittext", mTitleEdittext.getText().toString());
-                intent2.putExtra("contentEdittext", mContentEdittext.getText().toString());
+                intent2.putExtra("title", mTitleEdittext.getText().toString());
+                intent2.putExtra("content", mContentEdittext.getText().toString());
                 intent2.putExtra("requestSave", true);
                 setResult(RESULT_OK, intent2);
                 finish();

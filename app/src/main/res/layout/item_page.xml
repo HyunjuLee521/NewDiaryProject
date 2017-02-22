@@ -6,12 +6,14 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- 앞면 -->
     <ImageView
         android:id="@+id/picture_imageview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_create_white"
-        android:scaleType="centerCrop"/>
+        android:layout_marginBottom="24dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_create_white" />
 
     <TextView
         android:id="@+id/image_textview"
@@ -20,6 +22,16 @@
         android:gravity="center"
         android:text="사진들어갈자리" />
 
+    <TextView
+        android:id="@+id/comment_textview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom|end"
+        android:text="2017. 2. 22"
+        android:textSize="10dp" />
+
+
+    <!-- 뒷면 : visibility 초기값=gone -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

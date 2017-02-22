@@ -13,17 +13,18 @@ import com.hj.diaryproject.models.Page;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by USER on 2017-02-09.
  */
 
 public class PageAdapter extends BaseAdapter {
-    private ArrayList<Page> mData;
+    private List<Page> mData;
     private ViewHolder viewHolder;
 
 
-    public PageAdapter(ArrayList<Page> mData) {
+    public PageAdapter(List<Page> mData) {
         this.mData = mData;
     }
 
@@ -59,6 +60,7 @@ public class PageAdapter extends BaseAdapter {
             TextView contentTextView = (TextView) convertView.findViewById(R.id.content_textview);
             TextView imageTextView = (TextView) convertView.findViewById(R.id.image_textview);
             ImageView pictureImageView = (ImageView) convertView.findViewById(R.id.picture_imageview);
+            TextView commentTextView = (TextView) convertView.findViewById(R.id.comment_textview);
 
 
             // 뷰 홀더에 넣는다
@@ -66,6 +68,7 @@ public class PageAdapter extends BaseAdapter {
             viewHolder.contentTextView = contentTextView;
             viewHolder.imageTextView = imageTextView;
             viewHolder.pictureImageView = pictureImageView;
+            viewHolder.commentTextView = commentTextView;
 
             convertView.setTag(viewHolder);
         } else {
@@ -81,9 +84,15 @@ public class PageAdapter extends BaseAdapter {
         viewHolder.contentTextView.setText(page.getContent());
         viewHolder.imageTextView.setText(page.getImage());
         // TODO 사진도 가져와 뿌리기
+        if (page.getImage() == null) {
+            viewHolder.pictureImageView.setImageDrawable(null);
+        }
         viewHolder.pictureImageView.setImageURI(Uri.parse(page.getImage()));
-        return convertView;
 
+        viewHolder.commentTextView.setText(page.getComment());
+
+
+        return convertView;
     }
 
     private static class ViewHolder {
@@ -91,6 +100,7 @@ public class PageAdapter extends BaseAdapter {
         TextView contentTextView;
         TextView imageTextView;
         ImageView pictureImageView;
+        TextView commentTextView;
     }
 
 
