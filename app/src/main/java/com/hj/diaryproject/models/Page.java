@@ -7,11 +7,13 @@ import java.io.Serializable;
  */
 
 public class Page implements Serializable {
+    private long id;
     private String title;
     private String content;
-    private long id;
     private String image;
 
+
+    // TODO db에서 값 받아올 경우 -> id 자동생성되므로 생성자에서 파라메터값으로 받지 않는다
     public Page(int id, String title, String content, String image) {
         this.id = id;
         this.title = title;

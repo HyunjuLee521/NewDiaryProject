@@ -1,14 +1,17 @@
 package com.hj.diaryproject.adapters;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hj.diaryproject.R;
 import com.hj.diaryproject.models.Page;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 /**
@@ -55,12 +58,14 @@ public class PageAdapter extends BaseAdapter {
             TextView titleTextView = (TextView) convertView.findViewById(R.id.title_textiview);
             TextView contentTextView = (TextView) convertView.findViewById(R.id.content_textview);
             TextView imageTextView = (TextView) convertView.findViewById(R.id.image_textview);
+            ImageView pictureImageView = (ImageView) convertView.findViewById(R.id.picture_imageview);
 
 
             // 뷰 홀더에 넣는다
             viewHolder.titleTextView = titleTextView;
             viewHolder.contentTextView = contentTextView;
             viewHolder.imageTextView = imageTextView;
+            viewHolder.pictureImageView = pictureImageView;
 
             convertView.setTag(viewHolder);
         } else {
@@ -75,7 +80,8 @@ public class PageAdapter extends BaseAdapter {
         viewHolder.titleTextView.setText(page.getTitle());
         viewHolder.contentTextView.setText(page.getContent());
         viewHolder.imageTextView.setText(page.getImage());
-
+        // TODO 사진도 가져와 뿌리기
+        viewHolder.pictureImageView.setImageURI(Uri.parse(page.getImage()));
         return convertView;
 
     }
@@ -84,8 +90,8 @@ public class PageAdapter extends BaseAdapter {
         TextView titleTextView;
         TextView contentTextView;
         TextView imageTextView;
+        ImageView pictureImageView;
     }
-
 
 
 }

@@ -10,7 +10,6 @@ import android.widget.EditText;
 
 public class EditBackPageActivity extends AppCompatActivity {
 
-    private String mImageEdittext = "";
     private EditText mTitleEdittext;
     private EditText mContentEdittext;
 
@@ -23,10 +22,7 @@ public class EditBackPageActivity extends AppCompatActivity {
         mTitleEdittext = (EditText) findViewById(R.id.title_edittext);
         mContentEdittext = (EditText) findViewById(R.id.content_edittext);
 
-        if (getIntent() != null) {
-            String value = getIntent().getStringExtra("imageEdittext");
-            mImageEdittext = value;
-        }
+
 
     }
 
@@ -60,7 +56,7 @@ public class EditBackPageActivity extends AppCompatActivity {
                 Intent intent2 = new Intent(this, EditBackPageActivity.class);
                 intent2.putExtra("titleEdittext", mTitleEdittext.getText().toString());
                 intent2.putExtra("contentEdittext", mContentEdittext.getText().toString());
-                intent2.putExtra("isRequestSave", true);
+                intent2.putExtra("requestSave", true);
                 setResult(RESULT_OK, intent2);
                 finish();
                 overridePendingTransition(0, 0);

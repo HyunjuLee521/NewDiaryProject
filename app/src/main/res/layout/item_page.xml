@@ -6,33 +6,39 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <ImageView
+        android:id="@+id/picture_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_create_white"
+        android:scaleType="centerCrop"/>
+
     <TextView
         android:id="@+id/image_textview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="사진들어갈자리"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="사진들어갈자리" />
 
     <LinearLayout
-        android:id="@+id/view1_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/title_textiview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="타이틀"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="gone" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/content_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="콘텐츠" />
+            android:text="콘텐츠"
+            android:visibility="gone" />
 
     </LinearLayout>
 

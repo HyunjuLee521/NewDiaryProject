@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private ArrayList<Page> mPageList;
     private PageAdapter mAdapter;
 
-
+    private static final int MOVE_EDITMODE = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         TextView titleTextview = (TextView) view.findViewById(R.id.title_textiview);
         TextView contentTextview = (TextView) view.findViewById(R.id.content_textview);
         TextView imageTextview = (TextView) view.findViewById(R.id.image_textview);
+        ImageView pictureImageview = (ImageView) view.findViewById(R.id.picture_imageview);
 
         int isFront = imageTextview.getVisibility();
 
@@ -76,11 +77,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             titleTextview.setVisibility(View.VISIBLE);
             contentTextview.setVisibility(View.VISIBLE);
             imageTextview.setVisibility(View.INVISIBLE);
+            pictureImageview.setVisibility(View.INVISIBLE);
+
 
         } else {
             titleTextview.setVisibility(View.INVISIBLE);
             contentTextview.setVisibility(View.INVISIBLE);
             imageTextview.setVisibility(View.VISIBLE);
+            pictureImageview.setVisibility(View.VISIBLE);
+
         }
 
 
@@ -100,13 +105,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Intent intent = new Intent(this, EditFrontPageActivity.class);
 //        startActivity(intent);
         // 주거니 받거니
-        startActivityForResult(intent, 1000);
+        startActivityForResult(intent, MOVE_EDITMODE);
         overridePendingTransition(0, 0);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
 
         mAdapter.notifyDataSetChanged();
     }
