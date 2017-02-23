@@ -50,7 +50,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="콘텐츠"
-            android:visibility="gone" />
+            android:visibility="gone"
+            />
 
     </LinearLayout>
 

@@ -115,14 +115,14 @@ public class PageAdapter extends BaseAdapter {
 
             if (isFrontPage) {
                 viewHolder.titleTextView.setVisibility(View.VISIBLE);
-                viewHolder.commentTextView.setVisibility(View.VISIBLE);
+                viewHolder.contentTextView.setVisibility(View.VISIBLE);
                 viewHolder.imageTextView.setVisibility(View.INVISIBLE);
                 viewHolder.pictureImageView.setVisibility(View.INVISIBLE);
                 viewHolder.commentTextView.setVisibility(View.INVISIBLE);
 
             } else {
                 viewHolder.titleTextView.setVisibility(View.INVISIBLE);
-                viewHolder.commentTextView.setVisibility(View.INVISIBLE);
+                viewHolder.contentTextView.setVisibility(View.INVISIBLE);
                 viewHolder.imageTextView.setVisibility(View.VISIBLE);
                 viewHolder.pictureImageView.setVisibility(View.VISIBLE);
                 viewHolder.commentTextView.setVisibility(View.VISIBLE);

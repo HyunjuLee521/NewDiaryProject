@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //
 //        }
 
-
         mAdapter.setSelect(id);
         // 데이터가 변경됨을 알려줌 = 다시 그려라
         mAdapter.notifyDataSetChanged();
@@ -109,19 +108,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         Page page = mPageList.get(position);
 
-        Intent intent = new Intent(this, EditFrontPageActivity.class);
+        Intent intent = new Intent(this, EditPageActivity.class);
         intent.putExtra("id", id);
         intent.putExtra("page", page);
 
         startActivityForResult(intent, UPTDATE_EXIT_PAGE);
-
         return true;
     }
 
     // write 버튼 클릭시
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this, EditFrontPageActivity.class);
+        Intent intent = new Intent(this, EditPageActivity.class);
 //        startActivity(intent);
         // 주거니 받거니
         startActivityForResult(intent, CREATE_NEW_PAGE);

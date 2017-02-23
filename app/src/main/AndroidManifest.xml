@@ -16,7 +16,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".EditFrontPageActivity" />
-        <activity android:name=".EditBackPageActivity"></activity>
+        <activity android:name=".EditBackPageActivity" />
+        <activity android:name=".EditPageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
