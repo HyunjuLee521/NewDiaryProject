@@ -71,32 +71,36 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        TextView titleTextview = (TextView) view.findViewById(R.id.title_textiview);
-        TextView contentTextview = (TextView) view.findViewById(R.id.content_textview);
-        TextView imageTextview = (TextView) view.findViewById(R.id.image_textview);
-        ImageView pictureImageview = (ImageView) view.findViewById(R.id.picture_imageview);
-        TextView commentTextview = (TextView) view.findViewById(R.id.comment_textview);
+//        TextView titleTextview = (TextView) view.findViewById(R.id.title_textiview);
+//        TextView contentTextview = (TextView) view.findViewById(R.id.content_textview);
+//        TextView imageTextview = (TextView) view.findViewById(R.id.image_textview);
+//        ImageView pictureImageview = (ImageView) view.findViewById(R.id.picture_imageview);
+//        TextView commentTextview = (TextView) view.findViewById(R.id.comment_textview);
+//
+//        int isFront = imageTextview.getVisibility();
+//
+//        if (isFront == View.VISIBLE) {
+//            titleTextview.setVisibility(View.VISIBLE);
+//            contentTextview.setVisibility(View.VISIBLE);
+//            imageTextview.setVisibility(View.INVISIBLE);
+//            pictureImageview.setVisibility(View.INVISIBLE);
+//            commentTextview.setVisibility(View.INVISIBLE);
+//
+//
+//        } else {
+//            titleTextview.setVisibility(View.INVISIBLE);
+//            contentTextview.setVisibility(View.INVISIBLE);
+//            imageTextview.setVisibility(View.VISIBLE);
+//            pictureImageview.setVisibility(View.VISIBLE);
+//            commentTextview.setVisibility(View.VISIBLE);
+//
+//
+//        }
 
-        int isFront = imageTextview.getVisibility();
 
-        if (isFront == View.VISIBLE) {
-            titleTextview.setVisibility(View.VISIBLE);
-            contentTextview.setVisibility(View.VISIBLE);
-            imageTextview.setVisibility(View.INVISIBLE);
-            pictureImageview.setVisibility(View.INVISIBLE);
-            commentTextview.setVisibility(View.INVISIBLE);
-
-
-        } else {
-            titleTextview.setVisibility(View.INVISIBLE);
-            contentTextview.setVisibility(View.INVISIBLE);
-            imageTextview.setVisibility(View.VISIBLE);
-            pictureImageview.setVisibility(View.VISIBLE);
-            commentTextview.setVisibility(View.VISIBLE);
-
-
-        }
-
+        mAdapter.setSelect(id);
+        // 데이터가 변경됨을 알려줌 = 다시 그려라
+        mAdapter.notifyDataSetChanged();
 
     }
 

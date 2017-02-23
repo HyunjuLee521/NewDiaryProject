@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hj.diaryproject.db.PageFacade;
 import com.hj.diaryproject.managers.PageManager;
 import com.hj.diaryproject.models.Page;
@@ -58,7 +59,12 @@ public class EditFrontPageActivity extends AppCompatActivity implements View.OnC
                 Page page = (Page) getIntent().getSerializableExtra("page");
                 mTitleEdittext = page.getTitle();
                 mContentEdittext = page.getContent();
-                mPictureImageview.setImageURI(Uri.parse(page.getImage()));
+
+                //TODO 수정시 기존의 사진 뿌려주기
+//                mPictureImageview.setImageURI(Uri.parse(page.getImage()));
+                Glide.with(this).load(page.getImage()).into(mPictureImageview);
+                mSelectedImageUri = Uri.parse(page.getImage());
+
                 mCommentTextview.setText(page.getComment());
             }
         }
@@ -126,7 +132,13 @@ public class EditFrontPageActivity extends AppCompatActivity implements View.OnC
         Intent intent = new Intent();
         intent.putExtra("title", mTitleEdittext);
         intent.putExtra("content", mContentEdittext);
-        intent.putExtra("image", mSelectedImageUri.toString());
+
+        // TODO 이미지가 선택되지 않았을경우
+        if (mSelectedImageUri == null) {
+            intent.putExtra("image", "nothing");
+        } else {
+            intent.putExtra("image", mSelectedImageUri.toString());
+        }
         intent.putExtra("comment", mCommentTextview.getText().toString());
         intent.putExtra("id", mId);
         setResult(RESULT_OK, intent);
@@ -143,7 +155,12 @@ public class EditFrontPageActivity extends AppCompatActivity implements View.OnC
         if (requestCode == SELECT_PICTRUE && resultCode == RESULT_OK && data.getData() != null) {
             mSelectedImageUri = data.getData();
             // TODO 이미지 크기 조정
-            mPictureImageview.setImageURI(mSelectedImageUri);
+//            mPictureImageview.setImageURI(mSelectedImageUri);
+
+            // 이미지 뿌리는 코드 수정
+            // Glide.with(parent.getContext()).load(page.getImage()).into(viewHolder.pictureImageView);
+            Glide.with(this).load(mSelectedImageUri.toString()).into(mPictureImageview);
+
         }
 
         // MOVE_BACKPAGE 에서 돌아온 값
