@@ -90,7 +90,24 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         // Intente에 key="page"로 page(object)를 담아 보냈을때
         if (getIntent() != null) {
             if (getIntent().hasExtra("page")) {
+
                 mId = getIntent().getLongExtra("id", -1);
+
+                // 수정을 위해 가져온 페이지의 마지막 상태가
+                // 앞면이었는지 뒷면이었는지 정보를 받아서
+                isFrontPage = getIntent().getBooleanExtra("isFrontPage", true);
+
+                // 동일하게 표시해준다
+                if (isFrontPage) {
+                    mFrontLayout.setVisibility(View.VISIBLE);
+                    mBackLayout.setVisibility(View.INVISIBLE);
+                    isFrontPage = false;
+                } else {
+                    mFrontLayout.setVisibility(View.INVISIBLE);
+                    mBackLayout.setVisibility(View.VISIBLE);
+                    isFrontPage = true;
+                }
+
 
                 Page page = (Page) getIntent().getSerializableExtra("page");
 
@@ -122,12 +139,11 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         return date;
     }
 
-    // 전체 화면, 한번 클릭시 앞장 뒷장 전환
+    // 전체 화면 레이아웃, 클릭시 앞장 뒷장 전환
     @Override
     public void onClick(View v) {
         // 현재 앞장인지 뒷장인지 확인
         // 현재 앞장이라면 isFrontPage = true;
-
         if (mFrontLayout.getVisibility() == View.VISIBLE) {
             isFrontPage = true;
         } else {

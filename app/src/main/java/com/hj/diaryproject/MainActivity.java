@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,9 +28,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private PageFacade mPageFacade;
 
-
     private static final int CREATE_NEW_PAGE = 1000;
     private static final int UPTDATE_EXIT_PAGE = 1001;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // 어댑터
         mAdapter = new PageAdapter(mPageList);
-
         mGridView.setAdapter(mAdapter);
 
         // 버튼 클릭시 호출
@@ -67,35 +67,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
-    // gridView 클릭시 -> 앞장 뒷장 전환
+    // gridView item 클릭시 -> 앞장 뒷장 전환
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-//        TextView titleTextview = (TextView) view.findViewById(R.id.title_textiview);
-//        TextView contentTextview = (TextView) view.findViewById(R.id.content_textview);
-//        TextView imageTextview = (TextView) view.findViewById(R.id.image_textview);
-//        ImageView pictureImageview = (ImageView) view.findViewById(R.id.picture_imageview);
-//        TextView commentTextview = (TextView) view.findViewById(R.id.comment_textview);
-//
-//        int isFront = imageTextview.getVisibility();
-//
-//        if (isFront == View.VISIBLE) {
-//            titleTextview.setVisibility(View.VISIBLE);
-//            contentTextview.setVisibility(View.VISIBLE);
-//            imageTextview.setVisibility(View.INVISIBLE);
-//            pictureImageview.setVisibility(View.INVISIBLE);
-//            commentTextview.setVisibility(View.INVISIBLE);
-//
-//
-//        } else {
-//            titleTextview.setVisibility(View.INVISIBLE);
-//            contentTextview.setVisibility(View.INVISIBLE);
-//            imageTextview.setVisibility(View.VISIBLE);
-//            pictureImageview.setVisibility(View.VISIBLE);
-//            commentTextview.setVisibility(View.VISIBLE);
-//
-//
-//        }
 
         mAdapter.setSelect(id);
         // 데이터가 변경됨을 알려줌 = 다시 그려라
@@ -103,20 +77,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    // girdVIew 롱클릭시 -> edit모드 전환
+    // girdVIew item 롱클릭시 -> edit모드 전환
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        // 클릭된 아이템이 현재 앞면인지 뒷면인지 상태를 표시
+        boolean isFrontPage = false;
+        if (view.findViewById(R.id.picture_imageview).getVisibility() == View.VISIBLE) {
+            isFrontPage = true;
+        }
+
         Page page = mPageList.get(position);
 
         Intent intent = new Intent(this, EditPageActivity.class);
         intent.putExtra("id", id);
+        intent.putExtra("isFrontPage", isFrontPage);
         intent.putExtra("page", page);
-
         startActivityForResult(intent, UPTDATE_EXIT_PAGE);
         return true;
     }
 
-    // write 버튼 클릭시
+    // write 버튼 클릭시, 편집모드로 전환되어 EditPageActivity로 이동
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(this, EditPageActivity.class);
@@ -126,6 +106,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         overridePendingTransition(0, 0);
     }
 
+
+    // EditPageActivity에 보낸 두가지 요청
+    // (CREATE_NEW_PAGE, UPTDATE_EXIT_PAGE이 되돌아올때
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -136,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             String image = data.getStringExtra("image");
             String comment = data.getStringExtra("comment");
 
-            // ★1 새로운 페이지 생성
+            // ★1 새로운 페이지 생성 - 저장
             if (requestCode == CREATE_NEW_PAGE) {
                 long newRowId = mPageFacade.insert(title, content, image, comment);
                 if (newRowId == -1) {
@@ -148,9 +131,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     mPageList = mPageFacade.getPageList();
                 }
 
-
             } else if (requestCode == UPTDATE_EXIT_PAGE) {
-                // ★2 기존의 페이지 수정
+                // ★2 기존의 페이지 수정 - 저장
 
                 long id = data.getLongExtra("id", -1);
                 // 수정
@@ -167,50 +149,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
 
         } else {
-            // ★3 취소 버튼
+            // ★3 새로운 페이지 생성 or 기존의 페이지 수정 - 취소 버튼
             Toast.makeText(this, "취소되었습니다.", Toast.LENGTH_SHORT).show();
         }
-
-
-
-        /*
-
-        if (resultCode == RESULT_OK) {
-            String title = data.getStringExtra("title");
-            String content = data.getStringExtra("content");
-
-            if (requestCode == REQUEST_CODE_NEW_MEMO) {
-                // 새 메모
-                long newRowId = mMemoFacade.insert(title, content);
-                if (newRowId == -1) {
-                    // 에러
-                    Toast.makeText(this, "저장이 실패하였습니다", Toast.LENGTH_SHORT).show();
-                } else {
-                    // 성공
-                    // 리스트 갱신
-                    mMemoList = mMemoFacade.getMemoList();
-                }
-
-            } else if (requestCode == REQUEST_CODE_UPDATE_MEMO) {
-                long id = data.getLongExtra("id", -1);
-                // 수정
-                if (mMemoFacade.update(id, title, content) > 0) {
-                    mMemoList = mMemoFacade.getMemoList();
-                }
-            }
-//            mAdapter.notifyDataSetChanged();
-            // TODO 위에꺼가 이상하게 안되니까 일단 아래 코드로 땜빵
-            mAdapter = new MemoAdapter(mMemoList);
-            mMemoListView.setAdapter(mAdapter);
-
-            Log.d(TAG, "onActivityResult: " + title + ", " + content);
-            Toast.makeText(this, "저장 되었습니다", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "취소 되었습니다", Toast.LENGTH_SHORT).show();
-        }
-
-
-         */
 
 
     }
