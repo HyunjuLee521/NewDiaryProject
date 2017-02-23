@@ -49,7 +49,7 @@ public class EditFrontPageActivity extends AppCompatActivity implements View.OnC
 
         // 코멘트 텍스트뷰 연결
         mCommentTextview = (TextView) findViewById(R.id.comment_textview);
-        mCommentTextview.setText("날짜 넣을 부분");
+        mCommentTextview.setText(getNowTime());
 
         if (getIntent() != null) {
             if (getIntent().hasExtra("page")) {
@@ -71,7 +71,7 @@ public class EditFrontPageActivity extends AppCompatActivity implements View.OnC
     @RequiresApi(api = Build.VERSION_CODES.N)
     public String getNowTime() {
 
-        SimpleDateFormat fm1 = new SimpleDateFormat("yyyy년MM월dd일");
+        SimpleDateFormat fm1 = new SimpleDateFormat("yyyy.MM.dd");
         String date = fm1.format(new Date());
 
         return date;

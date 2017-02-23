@@ -1,5 +1,7 @@
 package com.hj.diaryproject.adapters;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hj.diaryproject.R;
 import com.hj.diaryproject.models.Page;
 
@@ -21,8 +24,6 @@ import java.util.List;
 
 public class PageAdapter extends BaseAdapter {
     private List<Page> mData;
-    private ViewHolder viewHolder;
-
 
     public PageAdapter(List<Page> mData) {
         this.mData = mData;
@@ -45,6 +46,7 @@ public class PageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder;
 
 
         // convertView : 재사용 되는 뷰
@@ -84,10 +86,11 @@ public class PageAdapter extends BaseAdapter {
         viewHolder.contentTextView.setText(page.getContent());
         viewHolder.imageTextView.setText(page.getImage());
         // TODO 사진도 가져와 뿌리기
-        if (page.getImage() == null) {
-            viewHolder.pictureImageView.setImageDrawable(null);
-        }
-        viewHolder.pictureImageView.setImageURI(Uri.parse(page.getImage()));
+//        if (page.getImage() == null) {
+//            viewHolder.pictureImageView.setImageDrawable(null);
+//        }
+
+        Glide.with(parent.getContext()).load(page.getImage()).into(viewHolder.pictureImageView);
 
         viewHolder.commentTextView.setText(page.getComment());
 
