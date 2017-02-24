@@ -70,27 +70,56 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     // gridView item 클릭시 -> 앞장 뒷장 전환
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        int state = 1;
+        state = mPageList.get(position).getState();
 
-        mAdapter.setSelect(id);
+        if (state == 1) {
+            mPageList.get(position).setState(0);
+        } else {
+            mPageList.get(position).setState(1);
+        }
+
+
+        mPageFacade.update(
+                mPageList.get(position).getId(),
+                mPageList.get(position).getTitle(),
+                mPageList.get(position).getContent(),
+                mPageList.get(position).getImage(),
+                mPageList.get(position).getComment(),
+                mPageList.get(position).getState()
+        );
+
+//        mAdapter.setSelect(id);
         // 데이터가 변경됨을 알려줌 = 다시 그려라
         mAdapter.notifyDataSetChanged();
+
+//        mAdapter = new PageAdapter(mPageList);
+//        mGridView.setAdapter(mAdapter);
+
+
+        /*
+        if (mPageFacade.update(id, title, content, image, comment, state) > 0) {
+                    mPageList = mPageFacade.getPageList();
+                }
+         */
 
     }
 
     // girdVIew item 롱클릭시 -> edit모드 전환
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        // 클릭된 아이템이 현재 앞면인지 뒷면인지 상태를 표시
-        boolean isFrontPage = false;
-        if (view.findViewById(R.id.picture_imageview).getVisibility() == View.VISIBLE) {
-            isFrontPage = true;
-        }
+//        // 클릭된 아이템이 현재 앞면인지 뒷면인지 상태를 표시
+//        boolean isFrontPage = false;
+//        if (view.findViewById(R.id.picture_imageview).getVisibility() == View.VISIBLE) {
+//            isFrontPage = true;
+//        }
 
-        Page page = mPageList.get(position);
+        Page page = mPageFacade.getPageList().get(position);
+//        Page page = mPageList.get(position);
 
         Intent intent = new Intent(this, EditPageActivity.class);
         intent.putExtra("id", id);
-        intent.putExtra("isFrontPage", isFrontPage);
+//        intent.putExtra("isFrontPage", isFrontPage);
         intent.putExtra("page", page);
         startActivityForResult(intent, UPTDATE_EXIT_PAGE);
         return true;
@@ -118,10 +147,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             String content = data.getStringExtra("content");
             String image = data.getStringExtra("image");
             String comment = data.getStringExtra("comment");
+            int state = data.getIntExtra("state", 1);
 
             // ★1 새로운 페이지 생성 - 저장
             if (requestCode == CREATE_NEW_PAGE) {
-                long newRowId = mPageFacade.insert(title, content, image, comment);
+                long newRowId = mPageFacade.insert(title, content, image, comment, state);
                 if (newRowId == -1) {
                     // 에러
                     Toast.makeText(this, "저장이 실패하였습니다", Toast.LENGTH_SHORT).show();
@@ -136,13 +166,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 long id = data.getLongExtra("id", -1);
                 // 수정
-                if (mPageFacade.update(id, title, content, image, comment) > 0) {
+                if (mPageFacade.update(id, title, content, image, comment, state) > 0) {
                     mPageList = mPageFacade.getPageList();
                 }
 
             }
 
-            //            mAdapter.notifyDataSetChanged();
+//                        mAdapter.notifyDataSetChanged();
             // TODO 위에꺼가 이상하게 안되니까 일단 아래 코드로 땜빵
             mAdapter = new PageAdapter(mPageList);
             mGridView.setAdapter(mAdapter);

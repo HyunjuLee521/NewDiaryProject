@@ -19,16 +19,20 @@ public final class PageContract {
      * content TEXT,
      * image TEXT,
      * comment TEXT
+     * state INTEGER
      * );
      */
     public static final String SQL_CREATE_MEMO_TABLE =
-            String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT, %s TEXT, %s TEXT);",
+            String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s INTEGER);",
                     PageEntry.TABLE_NAME,
                     PageEntry._ID,
                     PageEntry.COLUMN_NAME_TITLE,
                     PageEntry.COLUMN_NAME_CONTENT,
                     PageEntry.COLUMN_NAME_IMAGE,
-                    PageEntry.COLUMN_NAME_COMMENT);
+                    PageEntry.COLUMN_NAME_COMMENT,
+                    PageEntry.COLUMN_NAME_STATE
+
+            );
 
     // To prevent someone from accidentally instantiating the contract class,
     // make the constructor private.
@@ -42,5 +46,6 @@ public final class PageContract {
         public static final String COLUMN_NAME_CONTENT = "content";
         public static final String COLUMN_NAME_IMAGE = "image";
         public static final String COLUMN_NAME_COMMENT = "comment";
+        public static final String COLUMN_NAME_STATE = "state";
     }
 }

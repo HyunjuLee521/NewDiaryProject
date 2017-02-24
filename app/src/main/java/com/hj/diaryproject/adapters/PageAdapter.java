@@ -86,6 +86,9 @@ public class PageAdapter extends BaseAdapter {
         viewHolder.contentTextView.setText(page.getContent());
         viewHolder.imageTextView.setText(page.getImage());
 
+        viewHolder.commentTextView.setText(page.getComment());
+
+
         // TODO 사진도 가져와 뿌리기
         // 선택된 사진이 없다면
         // page.getImage(String) = null 이라면
@@ -95,38 +98,18 @@ public class PageAdapter extends BaseAdapter {
             Glide.with(parent.getContext()).load(page.getImage()).into(viewHolder.pictureImageView);
         }
 
-        viewHolder.commentTextView.setText(page.getComment());
-
-
-
-        /*
-
-        // 클릭 된 아이템이면 노란색
-        if (mSeletedPosition == position) {
-            convertView.setBackgroundColor(Color.YELLOW);
-        }
-
-         */
-        if (mSelectedId == getItemId(position)) {
-            boolean isFrontPage = false;
-            if (viewHolder.pictureImageView.getVisibility() == View.VISIBLE) {
-                isFrontPage = true;
-            }
-
-            if (isFrontPage) {
-                viewHolder.titleTextView.setVisibility(View.VISIBLE);
-                viewHolder.contentTextView.setVisibility(View.VISIBLE);
-                viewHolder.imageTextView.setVisibility(View.INVISIBLE);
-                viewHolder.pictureImageView.setVisibility(View.INVISIBLE);
-                viewHolder.commentTextView.setVisibility(View.INVISIBLE);
-
-            } else {
-                viewHolder.titleTextView.setVisibility(View.INVISIBLE);
-                viewHolder.contentTextView.setVisibility(View.INVISIBLE);
-                viewHolder.imageTextView.setVisibility(View.VISIBLE);
-                viewHolder.pictureImageView.setVisibility(View.VISIBLE);
-                viewHolder.commentTextView.setVisibility(View.VISIBLE);
-            }
+        if (mData.get(position).getState() == 0) {
+            viewHolder.titleTextView.setVisibility(View.VISIBLE);
+            viewHolder.contentTextView.setVisibility(View.VISIBLE);
+            viewHolder.imageTextView.setVisibility(View.INVISIBLE);
+            viewHolder.pictureImageView.setVisibility(View.INVISIBLE);
+            viewHolder.commentTextView.setVisibility(View.INVISIBLE);
+        } else {
+            viewHolder.titleTextView.setVisibility(View.INVISIBLE);
+            viewHolder.contentTextView.setVisibility(View.INVISIBLE);
+            viewHolder.imageTextView.setVisibility(View.VISIBLE);
+            viewHolder.pictureImageView.setVisibility(View.VISIBLE);
+            viewHolder.commentTextView.setVisibility(View.VISIBLE);
         }
 
         return convertView;
@@ -134,12 +117,7 @@ public class PageAdapter extends BaseAdapter {
 
 
     /*
-       // -1이면 선택된게 없다
-    private int mSeletedPosition = -1;
-
-    public void setSelect(int position) {
-        mSeletedPosition = position;
-    }
+      클릭되면 setSelect를 소환
      */
 
     private long mSelectedId = -1;

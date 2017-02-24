@@ -41,7 +41,9 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
     private Switch mEditSwitch;
 
     // 현재 앞장이면 true, 뒷장이면 false
-    private boolean isFrontPage;
+//    private boolean isFrontPage;
+    // 현재 앞장이면 1, 뒷장이면 0
+    private int state = 1;
 
     // (앞장) 앨범에서 사진 가져올 때
     // request code
@@ -93,22 +95,6 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
 
                 mId = getIntent().getLongExtra("id", -1);
 
-                // 수정을 위해 가져온 페이지의 마지막 상태가
-                // 앞면이었는지 뒷면이었는지 정보를 받아서
-                isFrontPage = getIntent().getBooleanExtra("isFrontPage", true);
-
-                // 동일하게 표시해준다
-                if (isFrontPage) {
-                    mFrontLayout.setVisibility(View.VISIBLE);
-                    mBackLayout.setVisibility(View.INVISIBLE);
-                    isFrontPage = false;
-                } else {
-                    mFrontLayout.setVisibility(View.INVISIBLE);
-                    mBackLayout.setVisibility(View.VISIBLE);
-                    isFrontPage = true;
-                }
-
-
                 Page page = (Page) getIntent().getSerializableExtra("page");
 
                 // 앞장
@@ -123,9 +109,18 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
                 mTitleEdittext.setText(page.getTitle());
                 mContentEdittext.setText(page.getContent());
 
+                state = page.getState();
+
+                if (state == 1) {
+                    mFrontLayout.setVisibility(View.VISIBLE);
+                    mBackLayout.setVisibility(View.INVISIBLE);
+                } else {
+                    mFrontLayout.setVisibility(View.INVISIBLE);
+                    mBackLayout.setVisibility(View.VISIBLE);
+                }
+
             }
         }
-
     }
 
     // content textview 부분에 오늘 날짜 가져와서 넣기 위해서 만든
@@ -139,25 +134,26 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         return date;
     }
 
+    // TODO 페이지 앞장 뒷장 전환 ★
     // 전체 화면 레이아웃, 클릭시 앞장 뒷장 전환
     @Override
     public void onClick(View v) {
         // 현재 앞장인지 뒷장인지 확인
         // 현재 앞장이라면 isFrontPage = true;
         if (mFrontLayout.getVisibility() == View.VISIBLE) {
-            isFrontPage = true;
+            state = 1;
         } else {
-            isFrontPage = false;
+            state = 0;
         }
 
-        if (isFrontPage) {
+        if (state == 1) {
             mFrontLayout.setVisibility(View.INVISIBLE);
             mBackLayout.setVisibility(View.VISIBLE);
-            isFrontPage = false;
+            state = 0;
         } else {
             mFrontLayout.setVisibility(View.VISIBLE);
             mBackLayout.setVisibility(View.INVISIBLE);
-            isFrontPage = true;
+            state = 1;
         }
     }
 
@@ -245,6 +241,7 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
 
     // 저장
     private void save() {
+
         Intent intent = new Intent();
         intent.putExtra("title", mTitleEdittext.getText().toString());
         intent.putExtra("content", mContentEdittext.getText().toString());
@@ -257,6 +254,8 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         }
         intent.putExtra("comment", mCommentTextview.getText().toString());
         intent.putExtra("id", mId);
+
+        intent.putExtra("state", state);
         setResult(RESULT_OK, intent);
         finish();
         overridePendingTransition(0, 0);

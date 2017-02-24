@@ -30,9 +30,10 @@ public class PageFacade {
      * @param content 내용
      * @param image   이미지URI String값으로 저장
      * @param comment 날짜등 이미지 밑의 코멘트
+     * @param state   앞면인지 뒷면인지 상태
      * @return 추가된 row 의 id, 만약 에러가 발생되면 -1
      */
-    public long insert(String title, String content, String image, String comment) {
+    public long insert(String title, String content, String image, String comment, int state) {
         // Gets the data repository in write mode
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
@@ -45,6 +46,7 @@ public class PageFacade {
         values.put(PageContract.PageEntry.COLUMN_NAME_CONTENT, content);
         values.put(PageContract.PageEntry.COLUMN_NAME_IMAGE, image);
         values.put(PageContract.PageEntry.COLUMN_NAME_COMMENT, comment);
+        values.put(PageContract.PageEntry.COLUMN_NAME_STATE, state);
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(PageContract.PageEntry.TABLE_NAME, null, values);
@@ -73,7 +75,9 @@ public class PageFacade {
                 PageContract.PageEntry.COLUMN_NAME_TITLE,
                 PageContract.PageEntry.COLUMN_NAME_CONTENT,
                 PageContract.PageEntry.COLUMN_NAME_IMAGE,
-                PageContract.PageEntry.COLUMN_NAME_COMMENT
+                PageContract.PageEntry.COLUMN_NAME_COMMENT,
+                PageContract.PageEntry.COLUMN_NAME_STATE
+
         };
 
         // How you want the results sorted in the resulting Cursor
@@ -124,7 +128,13 @@ public class PageFacade {
                                 PageContract.PageEntry._ID
                         ));
 
-                Page page = new Page(title, content, image, comment);
+                int state = c.getInt(
+                        c.getColumnIndexOrThrow(
+                                PageContract.PageEntry.COLUMN_NAME_STATE
+                        )
+                );
+
+                Page page = new Page(title, content, image, comment, state);
                 page.setId(id);
                 pageArrayList.add(page);
             }
@@ -167,9 +177,10 @@ public class PageFacade {
      * @param content 내용
      * @param image   이미지URI String값으로 저장
      * @param comment 날짜등 이미지 밑의 코멘트
+     * @param state   앞면(1)인지 뒷면(0)인지 상태 표시
      * @return 수정된 메모 수
      */
-    public int update(long id, String title, String content, String image, String comment) {
+    public int update(long id, String title, String content, String image, String comment, int state) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         // New value for one column
@@ -178,6 +189,7 @@ public class PageFacade {
         values.put(PageContract.PageEntry.COLUMN_NAME_CONTENT, content);
         values.put(PageContract.PageEntry.COLUMN_NAME_IMAGE, image);
         values.put(PageContract.PageEntry.COLUMN_NAME_COMMENT, comment);
+        values.put(PageContract.PageEntry.COLUMN_NAME_STATE, state);
 
         int count = db.update(
                 PageContract.PageEntry.TABLE_NAME,

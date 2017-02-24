@@ -12,13 +12,15 @@ public class Page implements Serializable {
     private String content;
     private String image;
     private String comment;
+    private int state;
 
     // TODO db에서 값 받아올 경우 -> id 자동생성되므로 생성자에서 파라메터값으로 받지 않는다
-    public Page(String title, String content, String image, String comment) {
+    public Page(String title, String content, String image, String comment, int state) {
         this.title = title;
         this.content = content;
         this.image = image;
         this.comment = comment;
+        this.state = state;
     }
 
     public String getTitle() {
@@ -61,6 +63,14 @@ public class Page implements Serializable {
         this.comment = comment;
     }
 
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
     @Override
     public String toString() {
         return "Page{" +
@@ -69,6 +79,7 @@ public class Page implements Serializable {
                 ", content='" + content + '\'' +
                 ", image='" + image + '\'' +
                 ", comment='" + comment + '\'' +
+                ", state=" + state +
                 '}';
     }
 }
