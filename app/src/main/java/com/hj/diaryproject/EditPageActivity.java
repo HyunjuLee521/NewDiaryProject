@@ -1,16 +1,24 @@
 package com.hj.diaryproject;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.icu.text.SimpleDateFormat;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,7 +32,7 @@ import com.hj.diaryproject.models.Page;
 
 import java.util.Date;
 
-public class EditPageActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
+public class EditPageActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener, View.OnTouchListener {
 
     // 최상단 레이아웃
     private RelativeLayout mLayout;
@@ -39,6 +47,7 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
     private EditText mTitleEdittext;
     private EditText mContentEdittext;
     private Switch mEditSwitch;
+    private ImageView mDeleteImageview;
 
     // 현재 앞장이면 true, 뒷장이면 false
 //    private boolean isFrontPage;
@@ -75,6 +84,8 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         mTitleEdittext = (EditText) findViewById(R.id.title_edittext);
         mContentEdittext = (EditText) findViewById(R.id.content_edittext);
         mEditSwitch = (Switch) findViewById(R.id.edit_switch);
+        mDeleteImageview = (ImageView) findViewById(R.id.delete_imageview);
+        mDeleteImageview.setOnTouchListener(this);
 
 
         // < 클릭 or 롱클릭시 or 체크시 리스너 호출>
@@ -103,6 +114,8 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
                 Glide.with(this).load(page.getImage()).into(mPictureImageview);
                 mSelectedImageUri = Uri.parse(page.getImage());
 
+
+                
                 mCommentTextview.setText(page.getComment());
 
                 // 뒷장
@@ -121,6 +134,8 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
 
             }
         }
+
+
     }
 
     // content textview 부분에 오늘 날짜 가져와서 넣기 위해서 만든
@@ -146,13 +161,20 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
             state = 0;
         }
 
+        // 뒤집기
         if (state == 1) {
+            // 앞장이라면 -> 뒷장으로 뒤집기
             mFrontLayout.setVisibility(View.INVISIBLE);
             mBackLayout.setVisibility(View.VISIBLE);
+
             state = 0;
         } else {
+            // 뒷장이라면 -> 앞장으로 뒤집기
             mFrontLayout.setVisibility(View.VISIBLE);
             mBackLayout.setVisibility(View.INVISIBLE);
+            // switch check 안되게(view 모드로) 하기
+            mEditSwitch.setChecked(false);
+
             state = 1;
         }
     }
@@ -207,36 +229,13 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    // 메뉴 연결
+    // 뒤로가기 버튼 눌렀을 때 -> 저장
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_edit_page, menu);
-        return true;
-    }
-
-    // 메뉴(다음페이지, 취소, 저장) 클릭시
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_cancle:
-                setResult(RESULT_CANCELED);
-                finish();
-                overridePendingTransition(0, 0);
-                return true;
-
-            case R.id.action_save:
-                //TODO
-                // mSelectedImageUri가 null일 때 = 아무런 사진도 선택되지 않았을 때
-                // 아래 onactivitresult의 save 부분도 마찬가지의 오류 발생
-                save();
-                finish();
-                overridePendingTransition(0, 0);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public void onBackPressed() {
+        save();
+        finish();
+        overridePendingTransition(0, 0);
+        super.onBackPressed();
     }
 
     // 저장
@@ -261,5 +260,26 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         overridePendingTransition(0, 0);
     }
 
+    private void delete() {
+        Intent intent = new Intent();
+        intent.putExtra("id", mId);
+        setResult(RESULT_CANCELED, intent);
+        finish();
+        overridePendingTransition(0, 0);
 
+    }
+
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        //TODO 눌렸을 때 효과 바꾸기
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            mDeleteImageview.setColorFilter(0xaa111111, PorterDuff.Mode.SRC_OVER);
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            mDeleteImageview.setColorFilter(0x00000000, PorterDuff.Mode.SRC_OVER);
+        }
+
+        delete();
+        return true;
+    }
 }

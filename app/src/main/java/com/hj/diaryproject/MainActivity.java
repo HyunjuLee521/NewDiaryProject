@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -45,6 +46,24 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mGridView.setOnItemClickListener(this);
         // gridVIew 롱클릭시 호출
         mGridView.setOnItemLongClickListener(this);
+
+
+
+
+        int offset = (int)(getResources().getDisplayMetrics().density);
+        int index = mGridView.getFirstVisiblePosition();
+        final View first = mGridView.getChildAt(0);
+        if (null != first) {
+            offset -= first.getTop();
+        }
+
+        mGridView.setSelection(index);
+        mGridView.scrollBy(0, offset);
+
+
+
+
+
 
         // 데이터 초기화
         mPageList = new ArrayList<>();
@@ -172,17 +191,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             }
 
-//                        mAdapter.notifyDataSetChanged();
-            // TODO 위에꺼가 이상하게 안되니까 일단 아래 코드로 땜빵
-            mAdapter = new PageAdapter(mPageList);
-            mGridView.setAdapter(mAdapter);
             Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
 
+
         } else {
-            // ★3 새로운 페이지 생성 or 기존의 페이지 수정 - 취소 버튼
-            Toast.makeText(this, "취소되었습니다.", Toast.LENGTH_SHORT).show();
+            // ★3 새로운 페이지 생성 or 기존의 페이지 수정 - 삭제 버튼
+            long id = data.getLongExtra("id", -1);
+
+            int deleted = mPageFacade.delete(id);
+            if (deleted != 0) {
+                mPageList = mPageFacade.getPageList();
+            }
+
+            Toast.makeText(this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
         }
 
+        //                        mAdapter.notifyDataSetChanged();
+        // TODO 위에꺼가 이상하게 안되니까 일단 아래 코드로 땜빵
+        mAdapter = new PageAdapter(mPageList);
+        mGridView.setAdapter(mAdapter);
 
     }
 

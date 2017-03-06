@@ -116,6 +116,7 @@ public class PageAdapter extends BaseAdapter {
     }
 
 
+
     /*
       클릭되면 setSelect를 소환
      */

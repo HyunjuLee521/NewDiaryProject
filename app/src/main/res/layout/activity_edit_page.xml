@@ -4,7 +4,6 @@
     android:id="@+id/activity_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context="com.hj.diaryproject.EditPageActivity">
 
 
@@ -18,38 +17,59 @@
         android:layout_alignParentTop="true"
         android:layout_margin="8dp"
         android:orientation="vertical"
+        android:padding="16dp"
         android:visibility="gone">
 
-        <!-- 스위치 버튼 -->
+        <!-- 삭제 버튼 / 스위치 버튼 -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="view" />
 
-            <Switch
-                android:id="@+id/edit_switch"
+            <!-- 삭제 버튼 -->
+            <ImageView
+                android:clickable="true"
+                android:id="@+id/delete_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:showText="true"
-                android:text=""
-                android:textOff=""
-                android:textOn="" />
+                android:src="@drawable/ic_delete"
+                android:onClick="onDeleteClick"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+
+            <!-- view edit 모드 전환 스위치 버튼 -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="edit" />
+                android:layout_weight="1"
+                android:gravity="end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="view" />
+
+                <Switch
+                    android:id="@+id/edit_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:showText="true"
+                    android:text=""
+                    android:textOff=""
+                    android:textOn="" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="edit" />
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
-
+        <!-- 타이틀 -->
         <EditText
             android:id="@+id/title_edittext"
             android:layout_width="match_parent"
@@ -58,6 +78,7 @@
             android:hint="타이틀 edittext"
             android:textSize="32sp" />
 
+        <!-- 콘텐트 -->
         <EditText
             android:id="@+id/content_edittext"
             android:layout_width="match_parent"
@@ -77,7 +98,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_margin="8dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <ImageView
             android:id="@+id/picture_imageview"
