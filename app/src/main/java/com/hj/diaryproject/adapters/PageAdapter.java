@@ -1,8 +1,5 @@
 package com.hj.diaryproject.adapters;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +11,6 @@ import com.bumptech.glide.Glide;
 import com.hj.diaryproject.R;
 import com.hj.diaryproject.models.Page;
 
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -95,7 +90,24 @@ public class PageAdapter extends BaseAdapter {
         if (page.getImage().equals("nothing")) {
             viewHolder.pictureImageView.setImageResource(R.mipmap.ic_launcher);
         } else {
+            // 1. Glide로 이미지
             Glide.with(parent.getContext()).load(page.getImage()).into(viewHolder.pictureImageView);
+
+            // 2. Glide로 썸네일 주기 -> 오류
+//            Glide.with(parent.getContext())
+//                    .loadFromMediaStore(Uri.parse(page.getImage()))
+//                    .thumbnail(0.5f)
+//                    .into(viewHolder.pictureImageView);
+
+            // 3. 비트맵 형식으로 썸네일 주기
+//            Bitmap bitmap = null;
+//            try {
+//                bitmap = MediaStore.Images.Media.getBitmap(parent.getContext().getContentResolver(), Uri.parse(page.getImage()));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            Bitmap thumbnail = ThumbnailUtils.extractThumbnail(bitmap, 100, 100);
+//            viewHolder.pictureImageView.setImageBitmap(thumbnail);
         }
 
         if (mData.get(position).getState() == 0) {

@@ -1,24 +1,15 @@
 package com.hj.diaryproject;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.icu.text.SimpleDateFormat;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Display;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hj.diaryproject.models.Page;
@@ -88,15 +80,25 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         mDeleteImageview.setOnTouchListener(this);
 
 
+
+
         // < 클릭 or 롱클릭시 or 체크시 리스너 호출>
         // 전체 화면, 클릭시 앞장 뒷장 전환
         mLayout.setOnClickListener(this);
+        // (앞장) 이미지 클릭시, 앞장 뒷장 전환
+        mPictureImageview.setOnClickListener(this);
+
 
         // (앞장) 이미지 롱 클릭시, 앨범에서 사진 가져오기
         mPictureImageview.setOnLongClickListener(this);
 
         // (뒷장) 스위치 체크 상태가 변화했을때
         mEditSwitch.setOnCheckedChangeListener(this);
+        // (뒷장) 레이아웃 롱클릭했을 때, 편집모드로 전환
+        mBackLayout.setOnLongClickListener(this);
+        // (뒷장) 레이아웃 클릭했을 때, 앞장 뒷장 전환
+        mBackLayout.setOnClickListener(this);
+
 
 
         // < 페이지 업데이트시>
@@ -111,11 +113,14 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
                 // 앞장
                 //TODO 수정시 기존의 사진 뿌려주기
 //                mPictureImageview.setImageURI(Uri.parse(page.getImage()));
-                Glide.with(this).load(page.getImage()).into(mPictureImageview);
+//                Glide.with(this).load(page.getImage()).into(mPictureImageview);
+
+                // 썸네일로 뿌려주기
+                Glide.with(this).loadFromMediaStore(Uri.parse(page.getImage())).thumbnail(0.2f).into(mPictureImageview);
+
                 mSelectedImageUri = Uri.parse(page.getImage());
 
 
-                
                 mCommentTextview.setText(page.getComment());
 
                 // 뒷장
@@ -174,6 +179,8 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
             mBackLayout.setVisibility(View.INVISIBLE);
             // switch check 안되게(view 모드로) 하기
             mEditSwitch.setChecked(false);
+            mContentEdittext.setEnabled(false);
+            mTitleEdittext.setEnabled(false);
 
             state = 1;
         }
@@ -193,6 +200,15 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
                         "Select Picture"), SELECT_PICTRUE);
                 break;
 
+
+            case R.id.back_layout:
+                Toast.makeText(this, "뒷장 롱클릭", Toast.LENGTH_SHORT).show();
+                mTitleEdittext.setEnabled(true);
+                mContentEdittext.setEnabled(true);
+                break;
+
+
+
             default:
                 break;
         }
@@ -211,7 +227,20 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
 
             // 이미지 뿌리는 코드 수정
             // Glide.with(parent.getContext()).load(page.getImage()).into(viewHolder.pictureImageView);
+            // 라이브러리에서 가져오는 방법
             Glide.with(this).load(mSelectedImageUri.toString()).into(mPictureImageview);
+
+
+            // 비트맵으로 가져오기
+//            try {
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mSelectedImageUri);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+
+
+
+
         }
 
     }

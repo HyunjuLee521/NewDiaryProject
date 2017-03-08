@@ -1,15 +1,11 @@
 package com.hj.diaryproject;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hj.diaryproject.adapters.PageAdapter;
@@ -40,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         mPageFacade = new PageFacade(this);
 
-        // gridVIew 연결
+        // gridVIew 연결l
         mGridView = (GridView) findViewById(R.id.grid_view);
         // gridVIew 클릭시 호출
         mGridView.setOnItemClickListener(this);

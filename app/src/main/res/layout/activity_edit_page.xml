@@ -12,7 +12,7 @@
     <LinearLayout
         android:id="@+id/back_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_margin="8dp"
@@ -29,12 +29,12 @@
 
             <!-- 삭제 버튼 -->
             <ImageView
-                android:clickable="true"
                 android:id="@+id/delete_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_delete"
-                android:onClick="onDeleteClick"/>
+                android:clickable="true"
+                android:onClick="onDeleteClick"
+                android:src="@drawable/ic_delete" />
 
 
             <!-- view edit 모드 전환 스위치 버튼 -->
@@ -69,23 +69,31 @@
 
         </LinearLayout>
 
-        <!-- 타이틀 -->
-        <EditText
-            android:id="@+id/title_edittext"
+        <LinearLayout
+            android:id="@+id/title_content_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:hint="타이틀 edittext"
-            android:textSize="32sp" />
+            android:orientation="vertical">
 
-        <!-- 콘텐트 -->
-        <EditText
-            android:id="@+id/content_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:hint="콘텐트 edittext"
-            android:textSize="24sp" />
+            <!-- 타이틀 -->
+            <EditText
+                android:id="@+id/title_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="타이틀 edittext"
+                android:textSize="32sp" />
+
+            <!-- 콘텐트 -->
+            <EditText
+                android:id="@+id/content_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="콘텐트 edittext"
+                android:textSize="24sp" />
+        </LinearLayout>
+
 
     </LinearLayout>
 
