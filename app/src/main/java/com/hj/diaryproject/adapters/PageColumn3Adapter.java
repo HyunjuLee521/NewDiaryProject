@@ -17,10 +17,10 @@ import java.util.List;
  * Created by USER on 2017-02-09.
  */
 
-public class PageAdapter extends BaseAdapter {
+public class PageColumn3Adapter extends BaseAdapter {
     private List<Page> mData;
 
-    public PageAdapter(List<Page> mData) {
+    public PageColumn3Adapter(List<Page> mData) {
         this.mData = mData;
     }
 
@@ -50,7 +50,9 @@ public class PageAdapter extends BaseAdapter {
 
             // 뷰를 새로 만들 때
             convertView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_page, parent, false);
+                    .inflate(R.layout.colomn3_item_page, parent, false);
+
+
 
             // 레이아웃 들고 오기
             TextView titleTextView = (TextView) convertView.findViewById(R.id.title_textiview);
@@ -66,6 +68,8 @@ public class PageAdapter extends BaseAdapter {
             viewHolder.imageTextView = imageTextView;
             viewHolder.pictureImageView = pictureImageView;
             viewHolder.commentTextView = commentTextView;
+
+
 
             convertView.setTag(viewHolder);
         } else {
@@ -123,6 +127,10 @@ public class PageAdapter extends BaseAdapter {
             viewHolder.pictureImageView.setVisibility(View.VISIBLE);
             viewHolder.commentTextView.setVisibility(View.VISIBLE);
         }
+
+
+
+
 
         return convertView;
     }

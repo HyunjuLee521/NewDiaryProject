@@ -3,12 +3,18 @@ package com.hj.diaryproject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import com.hj.diaryproject.adapters.PageAdapter;
+import com.hj.diaryproject.adapters.PageColumn1Adapter;
+import com.hj.diaryproject.adapters.PageColumn3Adapter;
 import com.hj.diaryproject.db.PageFacade;
 import com.hj.diaryproject.managers.PageManager;
 import com.hj.diaryproject.models.Page;
@@ -21,20 +27,32 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private GridView mGridView;
     private List<Page> mPageList;
-    private PageAdapter mAdapter;
+    private PageColumn3Adapter mColumn3Adapter;
+    private PageColumn1Adapter mColumn1Adapter;
 
     private PageFacade mPageFacade;
 
     private static final int CREATE_NEW_PAGE = 1000;
     private static final int UPTDATE_EXIT_PAGE = 1001;
 
+    private int mColumn = 3;
+
+    private Toolbar mMainToolbar;
+
+    OrientationEventListener orientEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         mPageFacade = new PageFacade(this);
+
+        mMainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(mMainToolbar);
+        getSupportActionBar().setTitle("툴바 잘 들어갔는지 테스트");
+
 
         // gridVIew 연결l
         mGridView = (GridView) findViewById(R.id.grid_view);
@@ -42,23 +60,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mGridView.setOnItemClickListener(this);
         // gridVIew 롱클릭시 호출
         mGridView.setOnItemLongClickListener(this);
-
-
-
-
-        int offset = (int)(getResources().getDisplayMetrics().density);
-        int index = mGridView.getFirstVisiblePosition();
-        final View first = mGridView.getChildAt(0);
-        if (null != first) {
-            offset -= first.getTop();
-        }
-
-        mGridView.setSelection(index);
-        mGridView.scrollBy(0, offset);
-
-
-
-
 
 
         // 데이터 초기화
@@ -71,9 +72,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         mPageList = mPageFacade.getPageList();
 
+
         // 어댑터
-        mAdapter = new PageAdapter(mPageList);
-        mGridView.setAdapter(mAdapter);
+        if (mColumn == 3) {
+            mGridView.setNumColumns(3);
+            mColumn3Adapter = new PageColumn3Adapter(mPageList);
+            mGridView.setAdapter(mColumn3Adapter);
+        } else {
+            mGridView.setNumColumns(1);
+            mColumn1Adapter = new PageColumn1Adapter(mPageList);
+            mGridView.setAdapter(mColumn1Adapter);
+        }
+
 
         // 버튼 클릭시 호출
         findViewById(R.id.write_button).setOnClickListener(this);
@@ -81,6 +91,69 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("columnMode", mColumn);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // 복원 (null 체크 불필요)
+        mColumn = savedInstanceState.getInt("columnMode");
+
+        // 어댑터
+        if (mColumn == 3) {
+            mGridView.setNumColumns(3);
+            mColumn3Adapter = new PageColumn3Adapter(mPageList);
+            mGridView.setAdapter(mColumn3Adapter);
+        } else {
+            mGridView.setNumColumns(1);
+            mColumn1Adapter = new PageColumn1Adapter(mPageList);
+            mGridView.setAdapter(mColumn1Adapter);
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /*
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+         */
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_modec_change:
+                if (mColumn == 1) {
+                    mGridView.setNumColumns(3);
+                    mColumn3Adapter = new PageColumn3Adapter(mPageList);
+                    mGridView.setAdapter(mColumn3Adapter);
+                    mColumn = 3;
+                } else {
+                    mGridView.setNumColumns(1);
+                    mColumn1Adapter = new PageColumn1Adapter(mPageList);
+                    mGridView.setAdapter(mColumn1Adapter);
+                    mColumn = 1;
+                }
+
+                return true;
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
 
     // gridView item 클릭시 -> 앞장 뒷장 전환
     @Override
@@ -104,12 +177,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 mPageList.get(position).getState()
         );
 
-//        mAdapter.setSelect(id);
         // 데이터가 변경됨을 알려줌 = 다시 그려라
-        mAdapter.notifyDataSetChanged();
+//        mColumn3Adapter.notifyDataSetChanged();
 
-//        mAdapter = new PageAdapter(mPageList);
-//        mGridView.setAdapter(mAdapter);
+
+        // 어댑터
+        if (mColumn == 3) {
+            mColumn3Adapter.notifyDataSetChanged();
+        } else {
+            mColumn1Adapter.notifyDataSetChanged();
+        }
+
+
+//        mColumn3Adapter = new PageColumn3Adapter(mPageList);
+//        mGridView.setAdapter(mColumn3Adapter);
 
 
         /*
@@ -202,12 +283,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Toast.makeText(this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
         }
 
-        //                        mAdapter.notifyDataSetChanged();
-        // TODO 위에꺼가 이상하게 안되니까 일단 아래 코드로 땜빵
-        mAdapter = new PageAdapter(mPageList);
-        mGridView.setAdapter(mAdapter);
+        //                        mColumn3Adapter.notifyDataSetChanged();
+//        // TODO 위에꺼가 이상하게 안되니까 일단 아래 코드로 땜빵
+//        mColumn3Adapter = new PageColumn3Adapter(mPageList);
+//        mGridView.setAdapter(mColumn3Adapter);
+
+        // 어댑터
+        if (mColumn == 3) {
+            mGridView.setNumColumns(3);
+            mColumn3Adapter = new PageColumn3Adapter(mPageList);
+            mGridView.setAdapter(mColumn3Adapter);
+        } else {
+            mGridView.setNumColumns(1);
+            mColumn1Adapter = new PageColumn1Adapter(mPageList);
+            mGridView.setAdapter(mColumn1Adapter);
+        }
+
 
     }
+
+
 
 
 }

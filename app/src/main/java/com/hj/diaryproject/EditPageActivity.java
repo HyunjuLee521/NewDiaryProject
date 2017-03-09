@@ -1,11 +1,14 @@
 package com.hj.diaryproject;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -52,6 +55,7 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
     // 가져온 사진 Uri
     private Uri mSelectedImageUri;
     private long mId = -1;
+    private String mSelectedImagePath;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -110,15 +114,21 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
 
                 Page page = (Page) getIntent().getSerializableExtra("page");
 
+
                 // 앞장
                 //TODO 수정시 기존의 사진 뿌려주기
 //                mPictureImageview.setImageURI(Uri.parse(page.getImage()));
 //                Glide.with(this).load(page.getImage()).into(mPictureImageview);
 
                 // 썸네일로 뿌려주기
-                Glide.with(this).loadFromMediaStore(Uri.parse(page.getImage())).thumbnail(0.2f).into(mPictureImageview);
-
+//                Glide.with(this).loadFromMediaStore(Uri.parse(page.getImage())).thumbnail(0.2f).into(mPictureImageview);
                 mSelectedImageUri = Uri.parse(page.getImage());
+
+                // 실제 패스를 구해 이미지 뿌려주기
+                Uri uri = Uri.parse(page.getImage());
+                mSelectedImagePath = getRealPath(uri);
+
+                Glide.with(this).load(mSelectedImagePath).into(mPictureImageview);
 
 
                 mCommentTextview.setText(page.getComment());
@@ -274,6 +284,9 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         intent.putExtra("title", mTitleEdittext.getText().toString());
         intent.putExtra("content", mContentEdittext.getText().toString());
 
+
+
+
         // TODO 이미지가 선택되지 않았을경우
         if (mSelectedImageUri == null) {
             intent.putExtra("image", "nothing");
@@ -311,4 +324,24 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         delete();
         return true;
     }
+
+    // 이미지 패스 가져오기
+    public String getRealPath(Uri uri) {
+        String strDocId = DocumentsContract.getDocumentId(uri);
+        String[] strSplittedDocId = strDocId.split(":");
+        String strId = strSplittedDocId[strSplittedDocId.length - 1];
+
+        Cursor crsCursor = getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[]{MediaStore.MediaColumns.DATA},
+                "_id=?",
+                new String[]{strId},
+                null
+        );
+        crsCursor.moveToFirst();
+        String filePath = crsCursor.getString(0);
+
+        return filePath;
+    }
+
 }
