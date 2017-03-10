@@ -1,14 +1,10 @@
 package com.hj.diaryproject;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.icu.text.SimpleDateFormat;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -24,6 +20,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hj.diaryproject.models.Page;
+import com.hj.diaryproject.utils.MyUtils;
 
 import java.util.Date;
 
@@ -53,7 +50,7 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
     // request code
     private static final int SELECT_PICTRUE = 1001;
     // 가져온 사진 Uri
-    private Uri mSelectedImageUri;
+//    private Uri mSelectedImageUri;
     private long mId = -1;
     private String mSelectedImagePath;
 
@@ -84,8 +81,6 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         mDeleteImageview.setOnTouchListener(this);
 
 
-
-
         // < 클릭 or 롱클릭시 or 체크시 리스너 호출>
         // 전체 화면, 클릭시 앞장 뒷장 전환
         mLayout.setOnClickListener(this);
@@ -102,7 +97,6 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         mBackLayout.setOnLongClickListener(this);
         // (뒷장) 레이아웃 클릭했을 때, 앞장 뒷장 전환
         mBackLayout.setOnClickListener(this);
-
 
 
         // < 페이지 업데이트시>
@@ -122,12 +116,10 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
 
                 // 썸네일로 뿌려주기
 //                Glide.with(this).loadFromMediaStore(Uri.parse(page.getImage())).thumbnail(0.2f).into(mPictureImageview);
-                mSelectedImageUri = Uri.parse(page.getImage());
+//                mSelectedImageUri = Uri.parse(page.getImage());
 
                 // 실제 패스를 구해 이미지 뿌려주기
-                Uri uri = Uri.parse(page.getImage());
-                mSelectedImagePath = getRealPath(uri);
-
+                mSelectedImagePath = page.getImage();
                 Glide.with(this).load(mSelectedImagePath).into(mPictureImageview);
 
 
@@ -164,7 +156,6 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         return date;
     }
 
-    // TODO 페이지 앞장 뒷장 전환 ★
     // 전체 화면 레이아웃, 클릭시 앞장 뒷장 전환
     @Override
     public void onClick(View v) {
@@ -208,6 +199,12 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent,
                         "Select Picture"), SELECT_PICTRUE);
+
+
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                intent.setType("image/*");
+//                startActivityForResult(intent, SELECT_PICTRUE);
+
                 break;
 
 
@@ -216,7 +213,6 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
                 mTitleEdittext.setEnabled(true);
                 mContentEdittext.setEnabled(true);
                 break;
-
 
 
             default:
@@ -231,14 +227,25 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         super.onActivityResult(requestCode, resultCode, data);
         // SELECT_PICTRUE 에서 돌아온 값
         if (requestCode == SELECT_PICTRUE && resultCode == RESULT_OK && data.getData() != null) {
-            mSelectedImageUri = data.getData();
-            // TODO 이미지 크기 조정
+            /*
+             // 실제 패스를 구해 이미지 뿌려주기
+                Uri uri = Uri.parse(page.getImage());
+                mSelectedImagePath = getRealPath(uri);
+
+                Glide.with(this).load(mSelectedImagePath).into(mPictureImageview);
+
+             */
+            // TODO 이미지 패스 저장, 뿌리기
+            mSelectedImagePath = MyUtils.getRealPath(this, data.getData());
+            Glide.with(this).load(mSelectedImagePath).into(mPictureImageview);
+
+
 //            mPictureImageview.setImageURI(mSelectedImageUri);
 
             // 이미지 뿌리는 코드 수정
             // Glide.with(parent.getContext()).load(page.getImage()).into(viewHolder.pictureImageView);
             // 라이브러리에서 가져오는 방법
-            Glide.with(this).load(mSelectedImageUri.toString()).into(mPictureImageview);
+//            Glide.with(this).load(mSelectedImageUri.toString()).into(mPictureImageview);
 
 
             // 비트맵으로 가져오기
@@ -247,8 +254,6 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
 //            } catch (IOException e) {
 //                e.printStackTrace();
 //            }
-
-
 
 
         }
@@ -285,13 +290,11 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         intent.putExtra("content", mContentEdittext.getText().toString());
 
 
-
-
         // TODO 이미지가 선택되지 않았을경우
-        if (mSelectedImageUri == null) {
+        if (mSelectedImagePath == null) {
             intent.putExtra("image", "nothing");
         } else {
-            intent.putExtra("image", mSelectedImageUri.toString());
+            intent.putExtra("image", mSelectedImagePath);
         }
         intent.putExtra("comment", mCommentTextview.getText().toString());
         intent.putExtra("id", mId);
@@ -326,22 +329,5 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
     }
 
     // 이미지 패스 가져오기
-    public String getRealPath(Uri uri) {
-        String strDocId = DocumentsContract.getDocumentId(uri);
-        String[] strSplittedDocId = strDocId.split(":");
-        String strId = strSplittedDocId[strSplittedDocId.length - 1];
-
-        Cursor crsCursor = getContentResolver().query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new String[]{MediaStore.MediaColumns.DATA},
-                "_id=?",
-                new String[]{strId},
-                null
-        );
-        crsCursor.moveToFirst();
-        String filePath = crsCursor.getString(0);
-
-        return filePath;
-    }
 
 }
