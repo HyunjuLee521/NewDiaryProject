@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -61,6 +62,10 @@ public class PageColumn1Adapter extends BaseAdapter {
             ImageView pictureImageView = (ImageView) convertView.findViewById(R.id.picture_imageview);
             TextView commentTextView = (TextView) convertView.findViewById(R.id.comment_textview);
 
+            LinearLayout frontcoverLayout = (LinearLayout) convertView.findViewById(R.id.frontcover_layout);
+            LinearLayout backbottomLayout = (LinearLayout) convertView.findViewById(R.id.backcbottom_layout);
+
+
 
             // 뷰 홀더에 넣는다
             viewHolder.titleTextView = titleTextView;
@@ -69,8 +74,12 @@ public class PageColumn1Adapter extends BaseAdapter {
             viewHolder.pictureImageView = pictureImageView;
             viewHolder.commentTextView = commentTextView;
 
+            viewHolder.frontcoverLayout = frontcoverLayout;
+            viewHolder.backbottomLayout = backbottomLayout;
+
 
             convertView.setTag(viewHolder);
+
         } else {
             // 재사용 할 때
             viewHolder = (ViewHolder) convertView.getTag();
@@ -119,12 +128,18 @@ public class PageColumn1Adapter extends BaseAdapter {
             viewHolder.imageTextView.setVisibility(View.INVISIBLE);
             viewHolder.pictureImageView.setVisibility(View.INVISIBLE);
             viewHolder.commentTextView.setVisibility(View.INVISIBLE);
+
+            viewHolder.frontcoverLayout.setVisibility(View.INVISIBLE);
+            viewHolder.backbottomLayout.setVisibility(View.VISIBLE);
         } else {
             viewHolder.titleTextView.setVisibility(View.INVISIBLE);
             viewHolder.contentTextView.setVisibility(View.INVISIBLE);
             viewHolder.imageTextView.setVisibility(View.VISIBLE);
             viewHolder.pictureImageView.setVisibility(View.VISIBLE);
             viewHolder.commentTextView.setVisibility(View.VISIBLE);
+
+            viewHolder.frontcoverLayout.setVisibility(View.VISIBLE);
+            viewHolder.backbottomLayout.setVisibility(View.INVISIBLE);
         }
 
 
@@ -149,6 +164,10 @@ public class PageColumn1Adapter extends BaseAdapter {
         TextView imageTextView;
         ImageView pictureImageView;
         TextView commentTextView;
+
+        // 커버, bottom 폴라로이드 이미지
+        LinearLayout frontcoverLayout;
+        LinearLayout backbottomLayout;
     }
 
 

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
-    android:background="#fac5c5"
+    android:layout_height="250dp"
     android:orientation="vertical"
     android:padding="10dp"
     android:id="@+id/item_relativelayout">
+
+
 
     <!-- 앞면 -->
     <ImageView
@@ -25,6 +26,15 @@
         android:text="사진들어갈자리"
         android:visibility="gone" />
 
+    <!-- 앞면 커버 레이아웃 -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/frontcover_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/polaroid1">
+    </LinearLayout>
+
     <TextView
         android:id="@+id/comment_textview"
         android:layout_width="match_parent"
@@ -34,6 +44,17 @@
         android:textSize="10dp"
         android:visibility="gone" />
 
+
+
+
+    <!-- 뒷면 바탕 레이아웃-->
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/backcbottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/polaroid1">
+    </LinearLayout>
 
     <!-- 뒷면 : visibility 초기값=gone -->
     <LinearLayout
@@ -57,6 +78,8 @@
             android:visibility="gone" />
 
     </LinearLayout>
+
+
 
 
 </RelativeLayout>

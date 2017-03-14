@@ -3,9 +3,9 @@
     android:id="@+id/item_relativelayout"
     android:layout_width="match_parent"
     android:layout_height="500dp"
-    android:background="#fac5c5"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="8dp">
+
 
     <!-- 앞면 -->
     <ImageView
@@ -25,6 +25,15 @@
         android:text="사진들어갈자리"
         android:visibility="gone" />
 
+
+    <!-- 앞면 커버 레이아웃 -->
+    <LinearLayout
+        android:id="@+id/frontcover_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/front"
+        android:orientation="vertical"/>
+
     <TextView
         android:id="@+id/comment_textview"
         android:layout_width="match_parent"
@@ -34,6 +43,15 @@
         android:textSize="10dp"
         android:visibility="gone" />
 
+
+
+    <!-- 뒷면 바탕 레이아웃-->
+    <LinearLayout
+        android:id="@+id/backcbottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/back"
+        android:orientation="vertical" />
 
     <!-- 뒷면 : visibility 초기값=gone -->
     <LinearLayout

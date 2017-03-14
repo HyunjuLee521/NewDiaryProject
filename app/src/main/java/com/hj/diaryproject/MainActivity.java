@@ -1,6 +1,7 @@
 package com.hj.diaryproject;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.hj.diaryproject.adapters.PageColumn1Adapter;
 import com.hj.diaryproject.adapters.PageColumn3Adapter;
+import com.hj.diaryproject.adapters.PageLandAdapter;
 import com.hj.diaryproject.db.PageFacade;
 import com.hj.diaryproject.managers.PageManager;
 import com.hj.diaryproject.models.Page;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private List<Page> mPageList;
     private PageColumn3Adapter mColumn3Adapter;
     private PageColumn1Adapter mColumn1Adapter;
+    private PageLandAdapter mPageLandAdapter;
 
     private PageFacade mPageFacade;
 
@@ -73,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mPageList = mPageFacade.getPageList();
 
 
-        // 어댑터
         if (mColumn == 3) {
             mGridView.setNumColumns(3);
             mColumn3Adapter = new PageColumn3Adapter(mPageList);
@@ -104,8 +106,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // 복원 (null 체크 불필요)
         mColumn = savedInstanceState.getInt("columnMode");
 
+
         // 어댑터
-        if (mColumn == 3) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            mGridView.setNumColumns(3);
+            mPageLandAdapter = new PageLandAdapter(mPageList);
+            mGridView.setAdapter(mPageLandAdapter);
+
+            Toast.makeText(this, "가로모드 실행", Toast.LENGTH_SHORT).show();
+        } else if (mColumn == 3) {
             mGridView.setNumColumns(3);
             mColumn3Adapter = new PageColumn3Adapter(mPageList);
             mGridView.setAdapter(mColumn3Adapter);
@@ -155,9 +164,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+
     // gridView item 클릭시 -> 앞장 뒷장 전환
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
         int state = 1;
         state = mPageList.get(position).getState();
 
@@ -182,7 +194,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
         // 어댑터
-        if (mColumn == 3) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            mPageLandAdapter.notifyDataSetChanged();
+        } else if (mColumn == 3) {
             mColumn3Adapter.notifyDataSetChanged();
         } else {
             mColumn1Adapter.notifyDataSetChanged();
@@ -198,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     mPageList = mPageFacade.getPageList();
                 }
          */
+
 
     }
 
@@ -289,7 +304,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        mGridView.setAdapter(mColumn3Adapter);
 
         // 어댑터
-        if (mColumn == 3) {
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            mGridView.setNumColumns(3);
+            mPageLandAdapter = new PageLandAdapter(mPageList);
+            mGridView.setAdapter(mPageLandAdapter);
+
+            Toast.makeText(this, "가로모드 실행", Toast.LENGTH_SHORT).show();
+        } else if (mColumn == 3) {
             mGridView.setNumColumns(3);
             mColumn3Adapter = new PageColumn3Adapter(mPageList);
             mGridView.setAdapter(mColumn3Adapter);
@@ -301,8 +323,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     }
-
-
 
 
 }

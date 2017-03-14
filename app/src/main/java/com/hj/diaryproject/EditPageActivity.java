@@ -3,6 +3,7 @@ package com.hj.diaryproject;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.PorterDuff;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
@@ -69,7 +70,10 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
 
         // < 레이아웃 view들 가져오기 >
         // 가장 상단의 전체 레이아웃
-        mLayout = (RelativeLayout) findViewById(R.id.activity_page);
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            mLayout = (RelativeLayout) findViewById(R.id.activity_page);
+        }
+
 
         // 앞장에 해당하는 view들 연결
         mFrontLayout = (LinearLayout) findViewById(R.id.front_layout);
@@ -88,10 +92,13 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
 
 
         // < 클릭 or 롱클릭시 or 체크시 리스너 호출>
-        // 전체 화면, 클릭시 앞장 뒷장 전환
-        mLayout.setOnClickListener(this);
-        // (앞장) 이미지 클릭시, 앞장 뒷장 전환
-        mPictureImageview.setOnClickListener(this);
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            // 전체 화면, 클릭시 앞장 뒷장 전환
+            mLayout.setOnClickListener(this);
+            // (앞장) 이미지 클릭시, 앞장 뒷장 전환
+            mPictureImageview.setOnClickListener(this);
+
+        }
 
 
         // (앞장) 이미지 롱 클릭시, 앨범에서 사진 가져오기
@@ -137,14 +144,17 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
 
                 state = page.getState();
 
-                if (state == 1) {
-                    mFrontLayout.setVisibility(View.VISIBLE);
-                    mBackLayout.setVisibility(View.INVISIBLE);
-                } else {
-                    mFrontLayout.setVisibility(View.INVISIBLE);
-                    mBackLayout.setVisibility(View.VISIBLE);
+                if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+                    if (state == 1) {
+                        mFrontLayout.setVisibility(View.VISIBLE);
+                        mBackLayout.setVisibility(View.INVISIBLE);
+                    } else {
+                        mFrontLayout.setVisibility(View.INVISIBLE);
+                        mBackLayout.setVisibility(View.VISIBLE);
+                    }
                 }
 
+              
             }
         }
 
@@ -165,31 +175,36 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
     // 전체 화면 레이아웃, 클릭시 앞장 뒷장 전환
     @Override
     public void onClick(View v) {
-        // 현재 앞장인지 뒷장인지 확인
-        // 현재 앞장이라면 isFrontPage = true;
-        if (mFrontLayout.getVisibility() == View.VISIBLE) {
-            state = 1;
-        } else {
-            state = 0;
-        }
 
-        // 뒤집기
-        if (state == 1) {
-            // 앞장이라면 -> 뒷장으로 뒤집기
-            mFrontLayout.setVisibility(View.INVISIBLE);
-            mBackLayout.setVisibility(View.VISIBLE);
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
 
-            state = 0;
-        } else {
-            // 뒷장이라면 -> 앞장으로 뒤집기
-            mFrontLayout.setVisibility(View.VISIBLE);
-            mBackLayout.setVisibility(View.INVISIBLE);
-            // switch check 안되게(view 모드로) 하기
-            mEditSwitch.setChecked(false);
-            mContentEdittext.setEnabled(false);
-            mTitleEdittext.setEnabled(false);
 
-            state = 1;
+            // 현재 앞장인지 뒷장인지 확인
+            // 현재 앞장이라면 isFrontPage = true;
+            if (mFrontLayout.getVisibility() == View.VISIBLE) {
+                state = 1;
+            } else {
+                state = 0;
+            }
+
+            // 뒤집기
+            if (state == 1) {
+                // 앞장이라면 -> 뒷장으로 뒤집기
+                mFrontLayout.setVisibility(View.INVISIBLE);
+                mBackLayout.setVisibility(View.VISIBLE);
+
+                state = 0;
+            } else {
+                // 뒷장이라면 -> 앞장으로 뒤집기
+                mFrontLayout.setVisibility(View.VISIBLE);
+                mBackLayout.setVisibility(View.INVISIBLE);
+                // switch check 안되게(view 모드로) 하기
+                mEditSwitch.setChecked(false);
+                mContentEdittext.setEnabled(false);
+                mTitleEdittext.setEnabled(false);
+
+                state = 1;
+            }
         }
     }
 
@@ -241,7 +256,8 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
 
 
             case R.id.back_layout:
-                Toast.makeText(this, "뒷장 롱클릭", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "뒷장 롱클릭", Toast.LENGTH_SHORT).show();
+                mEditSwitch.setChecked(true);
                 mTitleEdittext.setEnabled(true);
                 mContentEdittext.setEnabled(true);
                 break;
@@ -348,6 +364,7 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
     // 뒤로가기 버튼 눌렀을 때 -> 저장
     @Override
     public void onBackPressed() {
+        mEditSwitch.setChecked(false);
         save();
         finish();
         overridePendingTransition(0, 0);
