@@ -4,145 +4,167 @@
     android:id="@+id/activity_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hj.diaryproject.EditPageActivity">
+    tools:context="com.hj.diaryproject.EditPageActivity"
+    android:paddingBottom="64dp"
+    android:paddingTop="64dp"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+
+    >
 
 
     <!-- 앞면 -->
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/front_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_margin="8dp"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/picture_imageview"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_margin="24dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_launcher" />
 
-        <TextView
-            android:id="@+id/comment_textview"
+
+
+        <!-- 앞면 커버 레이아웃 -->
+        <LinearLayout
+            android:id="@+id/frontcover_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="24dp"
-            android:gravity="end"
-            android:text="날짜들어갈자리" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:background="@drawable/front"
+            android:orientation="vertical" />
 
-    <!-- 앞면 커버 레이아웃 -->
-    <LinearLayout
-        android:id="@+id/frontcover_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/polaroid1"
-        android:orientation="vertical"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom|end"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
+
+            <TextView
+                android:gravity="bottom|end"
+                android:id="@+id/comment_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                android:text="날짜들어갈자리" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 
 
-    <!-- 뒷면 바탕 레이아웃-->
-    <LinearLayout
-        android:id="@+id/backcbottom_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/polaroid1"
-        android:orientation="vertical" />
 
-
-    <!-- 뒷면 EditText -->
-    <!-- visiblity 초기값 = gone -->
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/back_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_margin="8dp"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:visibility="gone">
+        >
 
-        <!-- 삭제 버튼 / 스위치 버튼 -->
+        <!-- 뒷면 바탕 레이아웃-->
+        <LinearLayout
+            android:id="@+id/backcbottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/back"
+            android:orientation="vertical"
+            />
+
+
+        <!-- 뒷면 EditText -->
+        <!-- visiblity 초기값 = gone -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="8dp"
+            android:orientation="vertical"
+            android:padding="16dp">
 
 
-            <!-- 삭제 버튼 -->
-            <ImageView
-                android:id="@+id/delete_imageview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:onClick="onDeleteClick"
-                android:src="@drawable/ic_delete" />
-
-
-            <!-- view edit 모드 전환 스위치 버튼 -->
+            <!-- 삭제 버튼 / 스위치 버튼 -->
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end">
+                android:orientation="horizontal">
 
-                <TextView
+
+                <!-- 삭제 버튼 -->
+                <ImageView
+                    android:id="@+id/delete_imageview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="view" />
+                    android:clickable="true"
+                    android:onClick="onDeleteClick"
+                    android:src="@drawable/ic_delete" />
 
-                <Switch
-                    android:id="@+id/edit_switch"
-                    android:layout_width="wrap_content"
+
+                <!-- view edit 모드 전환 스위치 버튼 -->
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:showText="true"
-                    android:text=""
-                    android:textOff=""
-                    android:textOn="" />
+                    android:layout_weight="1"
+                    android:gravity="end">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="edit" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="view" />
 
+                    <Switch
+                        android:id="@+id/edit_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:showText="true"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn="" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="edit" />
+
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/title_content_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- 타이틀 -->
-            <EditText
-                android:id="@+id/title_edittext"
+            <LinearLayout
+                android:id="@+id/title_content_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:hint="타이틀 edittext"
-                android:textSize="32sp" />
+                android:orientation="vertical">
 
-            <!-- 콘텐트 -->
-            <EditText
-                android:id="@+id/content_edittext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:hint="콘텐트 edittext"
-                android:textSize="24sp" />
+                <!-- 타이틀 -->
+                <EditText
+                    android:id="@+id/title_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:hint="타이틀 edittext"
+                    android:textSize="32sp" />
+
+                <!-- 콘텐트 -->
+                <EditText
+                    android:id="@+id/content_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:hint="콘텐트 edittext"
+                    android:textSize="24sp" />
+            </LinearLayout>
+
+
         </LinearLayout>
+    </RelativeLayout>
 
-
-    </LinearLayout>
 
 </RelativeLayout>

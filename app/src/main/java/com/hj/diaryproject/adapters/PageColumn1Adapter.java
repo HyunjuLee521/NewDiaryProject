@@ -91,8 +91,8 @@ public class PageColumn1Adapter extends BaseAdapter {
         // 화면에 뿌리기
         viewHolder.titleTextView.setText(page.getTitle());
         viewHolder.contentTextView.setText(page.getContent());
-        viewHolder.imageTextView.setText(page.getImage());
 
+//        viewHolder.imageTextView.setText(page.getImage());
         viewHolder.commentTextView.setText(page.getComment());
 
 
@@ -125,7 +125,7 @@ public class PageColumn1Adapter extends BaseAdapter {
         if (mData.get(position).getState() == 0) {
             viewHolder.titleTextView.setVisibility(View.VISIBLE);
             viewHolder.contentTextView.setVisibility(View.VISIBLE);
-            viewHolder.imageTextView.setVisibility(View.INVISIBLE);
+//            viewHolder.imageTextView.setVisibility(View.INVISIBLE);
             viewHolder.pictureImageView.setVisibility(View.INVISIBLE);
             viewHolder.commentTextView.setVisibility(View.INVISIBLE);
 
@@ -134,7 +134,7 @@ public class PageColumn1Adapter extends BaseAdapter {
         } else {
             viewHolder.titleTextView.setVisibility(View.INVISIBLE);
             viewHolder.contentTextView.setVisibility(View.INVISIBLE);
-            viewHolder.imageTextView.setVisibility(View.VISIBLE);
+//            viewHolder.imageTextView.setVisibility(View.VISIBLE);
             viewHolder.pictureImageView.setVisibility(View.VISIBLE);
             viewHolder.commentTextView.setVisibility(View.VISIBLE);
 

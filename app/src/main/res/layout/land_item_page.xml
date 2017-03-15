@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_relativelayout"
     android:layout_width="match_parent"
     android:layout_height="250dp"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:id="@+id/item_relativelayout">
-
+    android:orientation="vertical">
 
 
     <!-- 앞면 -->
@@ -13,7 +11,7 @@
         android:id="@+id/picture_imageview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="24dp"
+        android:layout_margin="5dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_create_white"
         android:visibility="gone" />
@@ -28,12 +26,11 @@
 
     <!-- 앞면 커버 레이아웃 -->
     <LinearLayout
-        android:orientation="vertical"
         android:id="@+id/frontcover_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/polaroid1">
-    </LinearLayout>
+        android:background="@drawable/front"
+        android:orientation="vertical"></LinearLayout>
 
     <TextView
         android:id="@+id/comment_textview"
@@ -45,16 +42,13 @@
         android:visibility="gone" />
 
 
-
-
     <!-- 뒷면 바탕 레이아웃-->
     <LinearLayout
-        android:orientation="vertical"
         android:id="@+id/backcbottom_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/polaroid1">
-    </LinearLayout>
+        android:background="@drawable/back"
+        android:orientation="vertical"></LinearLayout>
 
     <!-- 뒷면 : visibility 초기값=gone -->
     <LinearLayout
@@ -78,8 +72,6 @@
             android:visibility="gone" />
 
     </LinearLayout>
-
-
 
 
 </RelativeLayout>

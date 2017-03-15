@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -37,12 +36,12 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
     private RelativeLayout mLayout;
 
     // 레이아웃 앞장
-    private LinearLayout mFrontLayout;
+    private RelativeLayout mFrontLayout;
     private ImageView mPictureImageview;
     private TextView mCommentTextview;
 
     // 레이아웃 뒷장 - Edit 모드
-    private LinearLayout mBackLayout;
+    private RelativeLayout mBackLayout;
     private EditText mTitleEdittext;
     private EditText mContentEdittext;
     private Switch mEditSwitch;
@@ -76,14 +75,14 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
 
 
         // 앞장에 해당하는 view들 연결
-        mFrontLayout = (LinearLayout) findViewById(R.id.front_layout);
+        mFrontLayout = (RelativeLayout) findViewById(R.id.front_layout);
         mPictureImageview = (ImageView) findViewById(R.id.picture_imageview);
         mCommentTextview = (TextView) findViewById(R.id.comment_textview);
         // content textview 부분에 오늘 날짜 가져와서 넣기
         mCommentTextview.setText(getNowTime());
 
         // 뒷장에 해당하는 view들 연결
-        mBackLayout = (LinearLayout) findViewById(R.id.back_layout);
+        mBackLayout = (RelativeLayout) findViewById(R.id.back_layout);
         mTitleEdittext = (EditText) findViewById(R.id.title_edittext);
         mContentEdittext = (EditText) findViewById(R.id.content_edittext);
         mEditSwitch = (Switch) findViewById(R.id.edit_switch);
@@ -144,17 +143,21 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
 
                 state = page.getState();
 
-                if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-                    if (state == 1) {
-                        mFrontLayout.setVisibility(View.VISIBLE);
-                        mBackLayout.setVisibility(View.INVISIBLE);
-                    } else {
-                        mFrontLayout.setVisibility(View.INVISIBLE);
-                        mBackLayout.setVisibility(View.VISIBLE);
-                    }
-                }
 
-              
+
+            }
+        }
+
+
+
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+
+            if (state == 1) {
+                mFrontLayout.setVisibility(View.VISIBLE);
+                mBackLayout.setVisibility(View.INVISIBLE);
+            } else {
+                mFrontLayout.setVisibility(View.INVISIBLE);
+                mBackLayout.setVisibility(View.VISIBLE);
             }
         }
 
@@ -177,21 +180,20 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
 
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-
-
-            // 현재 앞장인지 뒷장인지 확인
-            // 현재 앞장이라면 isFrontPage = true;
-            if (mFrontLayout.getVisibility() == View.VISIBLE) {
-                state = 1;
-            } else {
-                state = 0;
-            }
+//
+//            // 현재 앞장인지 뒷장인지 확인
+//            // 현재 앞장이라면 isFrontPage = true;
+//            if (mFrontLayout.getVisibility() == View.VISIBLE) {
+//                state = 1;
+//            } else {
+//                state = 0;
+//            }
 
             // 뒤집기
             if (state == 1) {
                 // 앞장이라면 -> 뒷장으로 뒤집기
-                mFrontLayout.setVisibility(View.INVISIBLE);
                 mBackLayout.setVisibility(View.VISIBLE);
+                mFrontLayout.setVisibility(View.INVISIBLE);
 
                 state = 0;
             } else {
@@ -202,6 +204,7 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
                 mEditSwitch.setChecked(false);
                 mContentEdittext.setEnabled(false);
                 mTitleEdittext.setEnabled(false);
+
 
                 state = 1;
             }

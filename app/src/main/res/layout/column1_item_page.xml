@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_relativelayout"
     android:layout_width="match_parent"
-    android:layout_height="500dp"
+    android:layout_height="470dp"
     android:orientation="vertical"
-    android:padding="8dp">
+    >
 
 
     <!-- 앞면 -->
@@ -12,7 +12,7 @@
         android:id="@+id/picture_imageview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="24dp"
+        android:layout_margin="24dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_create_white"
         android:visibility="gone" />

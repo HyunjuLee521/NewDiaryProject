@@ -10,9 +10,8 @@
         android:id="@+id/main_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
     </android.support.v7.widget.Toolbar>
-
-
 
 
     <RelativeLayout
@@ -28,7 +27,7 @@
             android:horizontalSpacing="4dp"
             android:numColumns="3"
             android:padding="8dp"
-            android:verticalSpacing="4dp">
+            android:verticalSpacing="6dp">
 
         </GridView>
 
