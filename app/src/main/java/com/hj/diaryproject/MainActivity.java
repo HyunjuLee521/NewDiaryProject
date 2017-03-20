@@ -2,6 +2,7 @@ package com.hj.diaryproject;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,7 @@ import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hj.diaryproject.adapters.PageColumn1Adapter;
@@ -43,6 +45,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Toolbar mMainToolbar;
 
     OrientationEventListener orientEventListener;
+    private Menu mMenu;
+
+    private TextView mTitleTextview;
+    private TextView mSubtitleTextview;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +59,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         mPageFacade = new PageFacade(this);
 
+        // 툴바 연결
         mMainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mMainToolbar);
-        getSupportActionBar().setTitle("툴바 잘 들어갔는지 테스트");
+        getSupportActionBar().setTitle("");
+
+        // TODO 툴바 제목, 부제목 연결 및 글씨체 설정
+        mTitleTextview = (TextView) mMainToolbar.findViewById(R.id.title_textview);
+        mSubtitleTextview = (TextView) mMainToolbar.findViewById(R.id.subtitle_textview);
+
+        Typeface mKopubBoldTypeface = Typeface.createFromAsset(getAssets(), "KoPubDotumBold.ttf");
+        Typeface mKopubMediumTypeface = Typeface.createFromAsset(getAssets(), "KoPubDotumMedium.ttf");  //asset > fonts 폴더 내 폰트파일 적용
+        Typeface mKopubLightTypeface = Typeface.createFromAsset(getAssets(), "KoPubDotumLight.ttf");
+
+        // TODO 오류 발생
+        mTitleTextview.setTypeface(mKopubBoldTypeface);
+        mSubtitleTextview.setTypeface(mKopubLightTypeface);
+
+        mTitleTextview.setText("폴다");
+        mSubtitleTextview.setText("Polaroid Diary");
+
+
 
 
         // gridVIew 연결l
@@ -126,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    // 메뉴붙이기
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         /*
@@ -135,6 +161,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
          */
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+
+
+        mMenu = menu;
         return true;
 
     }
@@ -142,17 +171,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_modec_change:
+            case R.id.list1:
                 if (mColumn == 1) {
                     mGridView.setNumColumns(3);
                     mColumn3Adapter = new PageColumn3Adapter(mPageList);
                     mGridView.setAdapter(mColumn3Adapter);
                     mColumn = 3;
+
+                    mMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.list1));
+//
+//                    findViewById(R.id.list1).setVisibility(View.INVISIBLE);
+//                    findViewById(R.id.list3).setVisibility(View.VISIBLE);
                 } else {
                     mGridView.setNumColumns(1);
                     mColumn1Adapter = new PageColumn1Adapter(mPageList);
                     mGridView.setAdapter(mColumn1Adapter);
                     mColumn = 1;
+//
+                    mMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.list3));
+//                    findViewById(R.id.list1).setVisibility(View.VISIBLE);
+//                    findViewById(R.id.list3).setVisibility(View.INVISIBLE);
                 }
 
                 return true;

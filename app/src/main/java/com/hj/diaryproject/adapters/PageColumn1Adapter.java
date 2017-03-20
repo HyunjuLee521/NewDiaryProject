@@ -1,5 +1,6 @@
 package com.hj.diaryproject.adapters;
 
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,8 +86,19 @@ public class PageColumn1Adapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+
         // 데이터
         Page page = mData.get(position);
+
+        // font 지정
+
+        Typeface mKopubMediumTypeface = Typeface.createFromAsset(parent.getContext().getAssets(), "KoPubBatangMedium.ttf");  //asset > fonts 폴더 내 폰트파일 적용
+        Typeface mKopubLightTypeface = Typeface.createFromAsset(parent.getContext().getAssets(), "KoPubBatangLight.ttf");
+
+        viewHolder.titleTextView.setTypeface(mKopubMediumTypeface);
+        viewHolder.contentTextView.setTypeface(mKopubLightTypeface);
+        viewHolder.commentTextView.setTypeface(mKopubMediumTypeface);
+
 
         // 화면에 뿌리기
         viewHolder.titleTextView.setText(page.getTitle());
@@ -100,7 +112,7 @@ public class PageColumn1Adapter extends BaseAdapter {
         // 선택된 사진이 없다면
         // page.getImage(String) = null 이라면
         if (page.getImage().equals("nothing")) {
-            viewHolder.pictureImageView.setImageResource(R.mipmap.ic_launcher);
+//            viewHolder.pictureImageView.setImageResource(R.mipmap.ic_launcher);
         } else {
             // 1. Glide로 이미지
             Glide.with(parent.getContext()).load(page.getImage()).into(viewHolder.pictureImageView);

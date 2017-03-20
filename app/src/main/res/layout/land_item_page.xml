@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_relativelayout"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="270dp"
     android:orientation="vertical">
 
 
@@ -13,7 +13,6 @@
         android:layout_height="match_parent"
         android:layout_margin="5dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_create_white"
         android:visibility="gone" />
 
     <TextView
@@ -30,15 +29,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/front"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical">
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/comment_textview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="18dp"
         android:gravity="bottom|end"
         android:text="2017. 2. 22"
-        android:textSize="10dp"
+        android:textSize="12sp"
+        android:typeface="serif"
         android:visibility="gone" />
 
 
@@ -48,12 +52,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/back"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical">
+
+    </LinearLayout>
 
     <!-- 뒷면 : visibility 초기값=gone -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="38dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="18dp"
         android:orientation="vertical">
 
         <TextView
@@ -68,7 +78,12 @@
             android:id="@+id/content_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="콘텐츠"
+            android:textSize="12sp"
             android:visibility="gone" />
 
     </LinearLayout>

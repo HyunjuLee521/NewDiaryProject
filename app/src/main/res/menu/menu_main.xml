@@ -4,10 +4,21 @@
 
 
     <item
-        android:id="@+id/action_modec_change"
-        android:icon="@mipmap/ic_launcher"
+        android:id="@+id/list1"
+        android:icon="@drawable/list1"
         android:title="모드 설정"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:enabled="true"
+        />
+
+    <item
+        android:id="@+id/list3"
+        android:title="Item"
+        android:icon="@drawable/list3"
+        android:enabled="false"
+        android:visible="false"
+        app:showAsAction="always"
+        />
 
 
 </menu>

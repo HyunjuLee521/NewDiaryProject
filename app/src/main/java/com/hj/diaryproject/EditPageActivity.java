@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
@@ -111,6 +112,24 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         mBackLayout.setOnClickListener(this);
 
 
+
+        /*
+        TODO 폰트 적용
+        Button btn2 = (Button)findViewById(R.id.button_custom);
+        btn2.setOnClickListener(this);
+
+        Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/NEXONFootballGothicB.ttf"));  //asset > fonts 폴더 내 폰트파일 적용
+        btn2.setTypeface(typeFace);
+         */
+
+        Typeface mKopubMediumTypeface = Typeface.createFromAsset(getAssets(), "KoPubBatangMedium.ttf");  //asset > fonts 폴더 내 폰트파일 적용
+        Typeface mKopubLightTypeface = Typeface.createFromAsset(getAssets(), "KoPubBatangLight.ttf");
+
+        mCommentTextview.setTypeface(mKopubMediumTypeface);
+        mTitleEdittext.setTypeface(mKopubMediumTypeface);
+        mContentEdittext.setTypeface(mKopubLightTypeface);
+
+
         // < 페이지 업데이트시>
         // Intente에 key="page"로 page(object)를 담아 보냈을때
         if (getIntent() != null) {
@@ -144,10 +163,8 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
                 state = page.getState();
 
 
-
             }
         }
-
 
 
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {

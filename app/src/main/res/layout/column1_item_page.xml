@@ -2,9 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_relativelayout"
     android:layout_width="match_parent"
-    android:layout_height="470dp"
-    android:orientation="vertical"
-    >
+    android:layout_height="500dp"
+    android:orientation="vertical">
 
 
     <!-- 앞면 -->
@@ -14,7 +13,6 @@
         android:layout_height="match_parent"
         android:layout_margin="24dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_create_white"
         android:visibility="gone" />
 
     <TextView
@@ -32,17 +30,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/front"
-        android:orientation="vertical"/>
+        android:orientation="vertical" />
 
     <TextView
         android:id="@+id/comment_textview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="28dp"
         android:gravity="bottom|end"
         android:text="2017. 2. 22"
-        android:textSize="10dp"
+        android:textSize="20sp"
+        android:typeface="serif"
         android:visibility="gone" />
-
 
 
     <!-- 뒷면 바탕 레이아웃-->
@@ -57,21 +57,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="64dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/title_textiview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:text="타이틀"
-            android:textSize="16sp"
+            android:textSize="32sp"
             android:visibility="gone" />
 
         <TextView
             android:id="@+id/content_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:ellipsize="end"
+            android:maxLines="12"
             android:text="콘텐츠"
+            android:textSize="24sp"
             android:visibility="gone" />
 
     </LinearLayout>

@@ -27,8 +27,7 @@
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher" />
+            android:scaleType="centerCrop" />
 
         <!-- 앞면 커버 레이아웃 -->
         <LinearLayout
@@ -52,12 +51,13 @@
         <!-- 삭제 버튼 -->
         <ImageView
             android:id="@+id/delete_imageview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="6dp"
             android:clickable="true"
             android:onClick="onDeleteClick"
-            android:padding="4dp"
-            android:src="@drawable/ic_delete" />
+            android:src="@drawable/delete" />
 
 
     </RelativeLayout>
