@@ -1,6 +1,5 @@
 package com.hj.diaryproject.adapters;
 
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,9 @@ import com.hj.diaryproject.R;
 import com.hj.diaryproject.models.Page;
 
 import java.util.List;
+
+import static com.hj.diaryproject.TypefaceManager.mKopubBatangLightTypeface;
+import static com.hj.diaryproject.TypefaceManager.mKopubBatangMediumTypeface;
 
 /**
  * Created by USER on 2017-03-09.
@@ -90,12 +92,10 @@ public class PageLandAdapter extends BaseAdapter {
         // 데이터
         Page page = mData.get(position);
 
-        Typeface mKopubMediumTypeface = Typeface.createFromAsset(parent.getContext().getAssets(), "KoPubBatangMedium.ttf");  //asset > fonts 폴더 내 폰트파일 적용
-        Typeface mKopubLightTypeface = Typeface.createFromAsset(parent.getContext().getAssets(), "KoPubBatangLight.ttf");
 
-        viewHolder.titleTextView.setTypeface(mKopubMediumTypeface);
-        viewHolder.contentTextView.setTypeface(mKopubLightTypeface);
-        viewHolder.commentTextView.setTypeface(mKopubMediumTypeface);
+        viewHolder.titleTextView.setTypeface(mKopubBatangMediumTypeface);
+        viewHolder.contentTextView.setTypeface(mKopubBatangLightTypeface);
+        viewHolder.commentTextView.setTypeface(mKopubBatangMediumTypeface);
 
 
         // 화면에 뿌리기

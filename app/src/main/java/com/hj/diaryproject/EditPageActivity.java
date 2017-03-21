@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.PorterDuff;
-import android.graphics.Typeface;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +28,9 @@ import com.hj.diaryproject.models.Page;
 import com.hj.diaryproject.utils.MyUtils;
 
 import java.util.Date;
+
+import static com.hj.diaryproject.TypefaceManager.mKopubBatangLightTypeface;
+import static com.hj.diaryproject.TypefaceManager.mKopubBatangMediumTypeface;
 
 public class EditPageActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener, View.OnTouchListener {
 
@@ -115,19 +117,11 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
 
         /*
         TODO 폰트 적용
-        Button btn2 = (Button)findViewById(R.id.button_custom);
-        btn2.setOnClickListener(this);
-
-        Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/NEXONFootballGothicB.ttf"));  //asset > fonts 폴더 내 폰트파일 적용
-        btn2.setTypeface(typeFace);
          */
 
-        Typeface mKopubMediumTypeface = Typeface.createFromAsset(getAssets(), "KoPubBatangMedium.ttf");  //asset > fonts 폴더 내 폰트파일 적용
-        Typeface mKopubLightTypeface = Typeface.createFromAsset(getAssets(), "KoPubBatangLight.ttf");
-
-        mCommentTextview.setTypeface(mKopubMediumTypeface);
-        mTitleEdittext.setTypeface(mKopubMediumTypeface);
-        mContentEdittext.setTypeface(mKopubLightTypeface);
+        mCommentTextview.setTypeface(mKopubBatangMediumTypeface);
+        mTitleEdittext.setTypeface(mKopubBatangMediumTypeface);
+        mContentEdittext.setTypeface(mKopubBatangLightTypeface);
 
 
         // < 페이지 업데이트시>

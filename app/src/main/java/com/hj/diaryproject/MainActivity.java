@@ -2,7 +2,6 @@ package com.hj.diaryproject;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +24,9 @@ import com.hj.diaryproject.models.Page;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.hj.diaryproject.TypefaceManager.mKopubDotumBoldTypeface;
+import static com.hj.diaryproject.TypefaceManager.mKopubDotumLightTypeface;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener, AdapterView.OnItemLongClickListener {
 
@@ -68,13 +70,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mTitleTextview = (TextView) mMainToolbar.findViewById(R.id.title_textview);
         mSubtitleTextview = (TextView) mMainToolbar.findViewById(R.id.subtitle_textview);
 
-        Typeface mKopubBoldTypeface = Typeface.createFromAsset(getAssets(), "KoPubDotumBold.ttf");
-        Typeface mKopubMediumTypeface = Typeface.createFromAsset(getAssets(), "KoPubDotumMedium.ttf");  //asset > fonts 폴더 내 폰트파일 적용
-        Typeface mKopubLightTypeface = Typeface.createFromAsset(getAssets(), "KoPubDotumLight.ttf");
-
         // TODO 오류 발생
-        mTitleTextview.setTypeface(mKopubBoldTypeface);
-        mSubtitleTextview.setTypeface(mKopubLightTypeface);
+        mTitleTextview.setTypeface(mKopubDotumBoldTypeface);
+        mSubtitleTextview.setTypeface(mKopubDotumLightTypeface);
 
         mTitleTextview.setText("폴다");
         mSubtitleTextview.setText("Polaroid Diary");
