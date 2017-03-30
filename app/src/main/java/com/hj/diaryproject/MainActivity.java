@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private TextView mTitleTextview;
     private TextView mSubtitleTextview;
+    private int index;
 
 
     @Override
@@ -114,12 +115,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         findViewById(R.id.write_button).setOnClickListener(this);
 
 
+
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("columnMode", mColumn);
+
+
+        index = mGridView.getFirstVisiblePosition();
+        outState.putInt("index", index);
     }
 
     @Override
@@ -128,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // 복원 (null 체크 불필요)
         mColumn = savedInstanceState.getInt("columnMode");
+        index = savedInstanceState.getInt("index");
 
 
         // 어댑터
@@ -288,6 +295,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+//        mGridView.smoothScrollToPosition(index);
+        mGridView.setSelection(index);
 
         if (resultCode == RESULT_OK) {
             String title = data.getStringExtra("title");
