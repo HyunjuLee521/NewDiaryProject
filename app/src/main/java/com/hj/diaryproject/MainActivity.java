@@ -122,9 +122,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("columnMode", mColumn);
-
-
-        index = mGridView.getFirstVisiblePosition();
         outState.putInt("index", index);
     }
 
@@ -276,6 +273,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        intent.putExtra("isFrontPage", isFrontPage);
         intent.putExtra("page", page);
         startActivityForResult(intent, UPTDATE_EXIT_PAGE);
+
+        index = position;
         return true;
     }
 
@@ -297,6 +296,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onActivityResult(requestCode, resultCode, data);
 
 //        mGridView.smoothScrollToPosition(index);
+//        mGridView.setSelection(index);
+//        mGridView.setVerticalScrollbarPosition(index);
         mGridView.setSelection(index);
 
         if (resultCode == RESULT_OK) {
