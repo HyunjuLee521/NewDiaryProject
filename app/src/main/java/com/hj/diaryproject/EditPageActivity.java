@@ -387,11 +387,9 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
 
     // 저장
     private void save() {
-
         Intent intent = new Intent();
         intent.putExtra("title", mTitleEdittext.getText().toString());
         intent.putExtra("content", mContentEdittext.getText().toString());
-
 
         // TODO 이미지가 선택되지 않았을경우
         if (mSelectedImagePath == null) {
@@ -403,6 +401,7 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         intent.putExtra("id", mId);
 
         intent.putExtra("state", state);
+
         setResult(RESULT_OK, intent);
         finish();
         overridePendingTransition(0, 0);

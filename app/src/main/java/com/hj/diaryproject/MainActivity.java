@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,29 +21,28 @@ import com.hj.diaryproject.db.PageFacade;
 import com.hj.diaryproject.managers.PageManager;
 import com.hj.diaryproject.models.Page;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.hj.diaryproject.TypefaceManager.mKopubDotumBoldTypeface;
-import static com.hj.diaryproject.TypefaceManager.mKopubDotumLightTypeface;
-
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener, AdapterView.OnItemLongClickListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
 
     private GridView mGridView;
-    private List<Page> mPageList;
     private PageColumn3Adapter mColumn3Adapter;
     private PageColumn1Adapter mColumn1Adapter;
     private PageLandAdapter mPageLandAdapter;
 
+    private List<Page> mPageList;
     private PageFacade mPageFacade;
 
-    private static final int CREATE_NEW_PAGE = 1000;
+
     private static final int UPTDATE_EXIT_PAGE = 1001;
 
     private int mColumn = 3;
 
-    private Toolbar mMainToolbar;
 
     OrientationEventListener orientEventListener;
     private Menu mMenu;
@@ -55,30 +53,24 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
         mPageFacade = new PageFacade(this);
-
-        // 툴바 연결
-        mMainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(mMainToolbar);
-        getSupportActionBar().setTitle("");
-
-        // TODO 툴바 제목, 부제목 연결 및 글씨체 설정
-        mTitleTextview = (TextView) mMainToolbar.findViewById(R.id.title_textview);
-        mSubtitleTextview = (TextView) mMainToolbar.findViewById(R.id.subtitle_textview);
-
-        // TODO 오류 발생
-        mTitleTextview.setTypeface(mKopubDotumBoldTypeface);
-        mSubtitleTextview.setTypeface(mKopubDotumLightTypeface);
-
-        mTitleTextview.setText("폴다");
-        mSubtitleTextview.setText("Polaroid Diary");
-
-
 
 
         // gridVIew 연결l
@@ -109,11 +101,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             mColumn1Adapter = new PageColumn1Adapter(mPageList);
             mGridView.setAdapter(mColumn1Adapter);
         }
-
-
-        // 버튼 클릭시 호출
-        findViewById(R.id.write_button).setOnClickListener(this);
-
 
 
     }
@@ -278,16 +265,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return true;
     }
 
-    // write 버튼 클릭시, 편집모드로 전환되어 EditPageActivity로 이동
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(this, EditPageActivity.class);
-//        startActivity(intent);
-        // 주거니 받거니
-        startActivityForResult(intent, CREATE_NEW_PAGE);
-        overridePendingTransition(0, 0);
-    }
-
 
     // EditPageActivity에 보낸 두가지 요청
     // (CREATE_NEW_PAGE, UPTDATE_EXIT_PAGE이 되돌아올때
@@ -307,19 +284,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             String comment = data.getStringExtra("comment");
             int state = data.getIntExtra("state", 1);
 
-            // ★1 새로운 페이지 생성 - 저장
-            if (requestCode == CREATE_NEW_PAGE) {
-                long newRowId = mPageFacade.insert(title, content, image, comment, state);
-                if (newRowId == -1) {
-                    // 에러
-                    Toast.makeText(this, "저장이 실패하였습니다", Toast.LENGTH_SHORT).show();
-                } else {
-                    // 성공
-                    // 리스트 갱신
-                    mPageList = mPageFacade.getPageList();
-                }
 
-            } else if (requestCode == UPTDATE_EXIT_PAGE) {
+            if (requestCode == UPTDATE_EXIT_PAGE) {
                 // ★2 기존의 페이지 수정 - 저장
 
                 long id = data.getLongExtra("id", -1);
@@ -351,7 +317,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        mGridView.setAdapter(mColumn3Adapter);
 
         // 어댑터
+        setAdapter();
 
+    }
+
+
+    @Subscribe
+    public void createNewPage(int resultCode) {
+        if (resultCode == RESULT_OK) {
+            Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+        }
+
+        mPageList = mPageFacade.getPageList();
+
+        setAdapter();
+    }
+
+
+    private void setAdapter() {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             mGridView.setNumColumns(3);
             mPageLandAdapter = new PageLandAdapter(mPageList);
@@ -367,7 +352,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             mColumn1Adapter = new PageColumn1Adapter(mPageList);
             mGridView.setAdapter(mColumn1Adapter);
         }
-
 
     }
 
