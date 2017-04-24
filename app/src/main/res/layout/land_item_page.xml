@@ -3,6 +3,10 @@
     android:id="@+id/item_relativelayout"
     android:layout_width="match_parent"
     android:layout_height="270dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginEnd="3dp"
+    android:layout_marginStart="3dp"
+    android:layout_marginTop="4dp"
     android:orientation="vertical">
 
 
@@ -41,6 +45,7 @@
         android:layout_marginEnd="18dp"
         android:gravity="bottom|end"
         android:text="2017. 2. 22"
+        android:textColor="#000000"
         android:textSize="12sp"
         android:typeface="serif"
         android:visibility="gone" />
@@ -67,6 +72,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:textColor="#000000"
             android:id="@+id/title_textiview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,6 +81,7 @@
             android:visibility="gone" />
 
         <TextView
+            android:textColor="#000000"
             android:id="@+id/content_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

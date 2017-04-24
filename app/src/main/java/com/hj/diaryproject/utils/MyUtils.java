@@ -31,5 +31,20 @@ public class MyUtils {
         return filePath;
     }
 
+    public static class ItemLongClickEvent {
+        public ItemLongClickEvent(int position) {
+            this.position = position;
+        }
+
+        public int position;
+    }
+
+    public static class ItemClickEvent {
+        public ItemClickEvent(int position) {
+            this.position = position;
+        }
+
+        public int position;
+    }
 
 }

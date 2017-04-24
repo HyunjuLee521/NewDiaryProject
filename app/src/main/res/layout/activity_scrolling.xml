@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="false"
     tools:context="com.hj.diaryproject.ScrollingActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
+        android:backgroundTint="#DBD7D7"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -20,7 +21,55 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="8dp"
+                android:gravity="start|center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/main_title_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#222222"
+                    android:textSize="30dp" />
+
+                <TextView
+                    android:id="@+id/main_subtitle_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text=""
+                    android:textColor="#2b2b2b"
+                    android:textSize="12dp" />
+
+
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/main_menu_mode_imageview"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="40dp"
+                android:onClick="onClickToChangeColumnMode"
+                android:src="@drawable/list1" />
+
+
+            <ImageView
+                android:id="@+id/scroll_top_imageview"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom|center"
+                android:src="@drawable/ic_top"
+                android:visibility="gone" />
+
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -34,13 +83,21 @@
 
     <include layout="@layout/activity_main" />
 
+
+    <ImageView
+        android:id="@+id/scroll_bottom_imageview"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom|center"
+        android:src="@drawable/ic_bottom" />
+
+
     <ImageView
         android:id="@+id/write_button"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="end|bottom"
-        android:layout_margin="8dp"
+        android:layout_margin="16dp"
         android:src="@drawable/edit" />
-
 
 </android.support.design.widget.CoordinatorLayout>

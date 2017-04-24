@@ -14,7 +14,6 @@ public class Page implements Serializable {
     private String comment;
     private int state;
 
-    // TODO db에서 값 받아올 경우 -> id 자동생성되므로 생성자에서 파라메터값으로 받지 않는다
     public Page(String title, String content, String image, String comment, int state) {
         this.title = title;
         this.content = content;

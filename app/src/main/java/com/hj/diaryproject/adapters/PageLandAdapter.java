@@ -106,11 +106,11 @@ public class PageLandAdapter extends BaseAdapter {
         viewHolder.commentTextView.setText(page.getComment());
 
 
-        // TODO 사진도 가져와 뿌리기
         // 선택된 사진이 없다면
         // page.getImage(String) = null 이라면
         if (page.getImage().equals("nothing")) {
 //            viewHolder.pictureImageView.setImageResource(R.mipmap.ic_launcher);
+
         } else {
             // 1. Glide로 이미지
             Glide.with(parent.getContext()).load(page.getImage()).into(viewHolder.pictureImageView);

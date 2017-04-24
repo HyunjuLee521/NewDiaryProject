@@ -2,7 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_relativelayout"
     android:layout_width="match_parent"
-    android:layout_height="500dp"
+    android:layout_height="480dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginEnd="2dp"
+    android:layout_marginStart="2dp"
+    android:layout_marginTop="3dp"
     android:orientation="vertical">
 
 
@@ -40,6 +44,7 @@
         android:layout_marginEnd="28dp"
         android:gravity="bottom|end"
         android:text="2017. 2. 22"
+        android:textColor="#000000"
         android:textSize="20sp"
         android:typeface="serif"
         android:visibility="gone" />
@@ -70,6 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="타이틀"
+            android:textColor="#000000"
             android:textSize="32sp"
             android:visibility="gone" />
 
@@ -82,6 +88,7 @@
             android:ellipsize="end"
             android:maxLines="12"
             android:text="콘텐츠"
+            android:textColor="#000000"
             android:textSize="24sp"
             android:visibility="gone" />
 

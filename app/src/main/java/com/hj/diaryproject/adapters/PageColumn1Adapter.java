@@ -107,7 +107,6 @@ public class PageColumn1Adapter extends BaseAdapter {
         viewHolder.commentTextView.setText(page.getComment());
 
 
-        // TODO 사진도 가져와 뿌리기
         // 선택된 사진이 없다면
         // page.getImage(String) = null 이라면
         if (page.getImage().equals("nothing")) {
