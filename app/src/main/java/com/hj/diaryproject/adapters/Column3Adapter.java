@@ -41,9 +41,11 @@ public class Column3Adapter extends RecyclerView.Adapter<Column3Adapter.ViewHold
     public Column3Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mParent = parent;
         // 뷰를 새로 만들 때
+
         View convertView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.colomn3_item_page, parent, false);
         return new ViewHolder(convertView);
+
 
     }
 

@@ -37,6 +37,8 @@ import static com.hj.diaryproject.TypefaceManager.mKopubDotumLightTypeface;
 public class EditPageActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener, View.OnTouchListener {
 
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1000;
+
+
     // 최상단 레이아웃
 //    private RelativeLayout mLayout;
 
@@ -59,6 +61,9 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
     // (앞장) 앨범에서 사진 가져올 때
     // request code
     private static final int SELECT_PICTRUE = 1001;
+    private static final int CAMERA_REQUEST = 1002;
+    private static final int SELECT_PHOTO = 1003;
+
     // 가져온 사진 Uri
 //    private Uri mSelectedImageUri;
     private long mId = -1;
@@ -360,42 +365,19 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent,
                 "Select Picture"), SELECT_PICTRUE);
+
+//        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+//        photoPickerIntent.setType("image/*");
+//        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+
+
     }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//
-//        switch (requestCode) {
-//            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
-//                // If request is cancelled, the result arrays are empty.
-//                if (grantResults.length > 0
-//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//
-//                    // permission was granted, yay! Do the
-//                    // contacts-related task you need to do.
-//
-//                    pickImage();
-//
-//                } else {
-//
-//                    // permission denied, boo! Disable the
-//                    // functionality that depends on this permission.
-//
-//                    // TODO: 권한 거부 되었을 경우의 처리
-//                    Toast.makeText(this, "권한 없음", Toast.LENGTH_SHORT).show();
-//                }
-//                return;
-//            }
-//
-//            // other 'case' lines to check for other
-//            // permissions this app might request
-//        }
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         // SELECT_PICTRUE 에서 돌아온 값
         if (requestCode == SELECT_PICTRUE && resultCode == RESULT_OK && data.getData() != null) {
             // 사진을 추가해주세요 안내 텍스트 안보이게 하기
@@ -409,8 +391,10 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
                 Glide.with(this).load(mSelectedImagePath).into(mPictureImageview);
 
              */
-            mSelectedImagePath = MyUtils.getRealPath(this, data.getData());
-            Glide.with(this).load(mSelectedImagePath).into(mPictureImageview);
+
+            mSelectedImagePath = MyUtils.RealPathUtil.getRealPath(this, data.getData());
+//            mSelectedImagePath = MyUtils.getRealPath(this, data.getData());
+            Glide.with(this).load(data.getData()).into(mPictureImageview);
 
 
 //            mPictureImageview.setImageURI(mSelectedImageUri);
@@ -429,8 +413,9 @@ public class EditPageActivity extends AppCompatActivity implements View.OnClickL
 //            }
 
 
-        }
+            mAddalbumTextview.setVisibility(View.INVISIBLE);
 
+        }
     }
 
     @Override

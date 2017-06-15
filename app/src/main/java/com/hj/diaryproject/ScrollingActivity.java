@@ -219,9 +219,6 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         }
 
 
-//        Toast.makeText(this, "메인에서 state " + mPageList.get(position).getState(), Toast.LENGTH_SHORT).show();
-//        mColumn3Adapter = new PageColumn3Adapter(mPageList);
-//        mGridView.setAdapter(mColumn3Adapter);
 
 
         /*
