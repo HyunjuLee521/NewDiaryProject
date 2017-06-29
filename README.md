@@ -32,7 +32,7 @@
     ![screensh](https://github.com/HyunjuLee521/NewDiaryProject/blob/master/ui5.png)
     
 1. 메인화면 상단 바 오른쪽에 있는 버튼(네모 모양 아이콘)을 클릭하여, 저장된 폴라로이드 다이어리의 크기를 크게(한 줄에 한 장씩) 또는 작게(한 줄에 세 장씩) 볼 수 있게끔 뷰 모드를 전환한다.
-  ![screensh](https://github.com/HyunjuLee521/NewDiaryProject/blob/master/6.png)
+  ![screensh](https://github.com/HyunjuLee521/NewDiaryProject/blob/master/ui6.png)
 
 1. 하단 중앙의 버튼(화살표 모양 아이콘) 클릭시 가장 아래(작성된 지 가장 오래 된 다이어리 위치)로 이동
     ![screensh](https://github.com/HyunjuLee521/NewDiaryProject/blob/master/ui7.png)
