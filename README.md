@@ -21,7 +21,7 @@
 1. 다이어리 앞장의 사진이 들어갈 위치를 꾹 길게 눌러 기기에 저장된 사진을 가져온다.
     ![screensh](https://github.com/HyunjuLee521/NewDiaryProject/blob/master/ui2.png)
     
-1. 다이어리 뒷장 역시 꾹 길게 눌러 텍스트를 작성한다. 상단 우측의 라디오 버튼으로 쓰기/읽기 모드를 전환할 수 있다.
+1. 다이어리 뒷장 역시 꾹 길게 눌러 텍스트를 작성한다. 상단 우측의 스위치 버튼으로 쓰기/읽기 모드를 전환할 수 있다.
     ![screensh](https://github.com/HyunjuLee521/NewDiaryProject/blob/master/ui3.png)
     
 1. 뒤로가기 또는 상단 바 우측의 저장 버튼을 누르면 메인화면에 새 폴라로이드 다이어리가 추가된다. 삭제 버튼을 누르면 작성이 취소된다.
@@ -76,10 +76,14 @@
 
 1. 안드로이드 이벤트 버스
     * greenrobot / EventBus : https://github.com/greenrobot/EventBus
+    
+2. 글라이드
+    * bump / glide : https://github.com/bumptech/glide
+  
+3. 테드퍼미션
+    * ParkSangGwon / TedPermission : https://github.com/ParkSangGwon/TedPermission
 
     
-
-
 ## 7. License
 Copyright 2017. Hyunju Lee
 
